@@ -3,13 +3,20 @@ package fr.alexandresarouille.exceptions;
 import javax.persistence.Entity;
 
 public class EntityNotExistException extends Exception {
-    public String printStackTrace(Class<Entity> clazz, int id, boolean printInConsole) {
-        String s = printStackTrace(clazz);
-        if(printInConsole) System.out.println(s  + "id: "+id);
-        return s;
+
+    public EntityNotExistException(Class<Entity> clazz, int id) {
+        this.clazz = clazz;
+        this.id = id;
     }
 
-    public String printStackTrace(Class<Entity> clazz) {
-        return "Une erreur c'est produit il semblerais que le "+clazz.getSimpleName()+" n'existe pas.";
+    private Class<Entity> clazz;
+    private int id;
+
+    public void printError() {
+        System.out.println(getError() + "id: "+id);
+    }
+
+    public String getError() {
+        return "Une erreur c'est produit il semblerais que le "+clazz.getSimpleName()+" exist déjà.";
     }
 }
