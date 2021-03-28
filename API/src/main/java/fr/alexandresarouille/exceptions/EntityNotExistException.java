@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 
 public class EntityNotExistException extends Exception {
 
-    public EntityNotExistException(Class<Entity> clazz, int id) {
+    public EntityNotExistException(Class clazz, int id) {
         this.clazz = clazz;
         this.id = id;
     }

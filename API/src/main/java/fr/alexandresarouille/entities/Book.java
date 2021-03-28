@@ -32,5 +32,5 @@ public class Book {
     /**
      * quantity in stock of the book
      */
-    private int quantity;
+    private Integer quantity;
 }

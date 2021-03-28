@@ -25,6 +25,13 @@ public interface BookService {
     Book findByIdIfExist(int id) throws EntityNotExistException;
 
     /**
+     * Get or not a book from the data base by his name
+     * @param name -> name of the book
+     * @return an optional containing the book if he was found
+     */
+    Optional<Book> findByName(String name);
+
+    /**
      * Create an new unique book object in the data base
      * @param book -> The book to create (without id)
      * @throws EntityExistException -> Throwed if a book with the same name already exist

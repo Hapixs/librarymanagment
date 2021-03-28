@@ -4,10 +4,11 @@ package fr.alexandresarouille.services;
 import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     /**
      * Get or not a user from the data base by his id
@@ -23,6 +24,13 @@ public interface UserService {
      * @throws EntityNotExistException -> Throwed if the id dosn't match with any user
      */
     User findByIdIfExist(int id) throws EntityNotExistException;
+
+    /**
+     * Get a user from the data base by his email
+     * @param email -> Email of the user
+     * @return -> The user by his email
+     */
+    Optional<User> findByEmail(String email);
 
     /**
      * Create an new unique user object in the data base
