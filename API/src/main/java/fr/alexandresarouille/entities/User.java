@@ -13,14 +13,31 @@ import javax.persistence.Id;
 @Entity
 public class User {
 
+    /**
+     * Unique id of the user
+     */
     @Id
     private int uniqueId;
 
-
+    /**
+     * Role of the user
+     */
     private Role role;
 
+    /**
+     * email of the user
+     */
     private String email;
+    /**
+     * name of the user
+     */
     private String name;
+    /**
+     * firstname of the user
+     */
     private String firstName;
+    /**
+     * password of the user
+     */
     private String password;
 }

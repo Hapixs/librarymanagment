@@ -14,14 +14,31 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 public class Loan {
+
+    /**
+     * Unique id of the loan
+     */
     @Id
     private int uniqueId;
 
+    /**
+     * User who do the loan
+     */
     @ManyToOne
     private User user;
+
+    /**
+     * Book that get lend to the user
+     */
     @ManyToOne
     private Book book;
 
+    /**
+     * Date which the book was loaned
+     */
     private Date dateStart;
+    /**
+     * Date which the book need to be return
+     */
     private Date dateEnd;
 }
