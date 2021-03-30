@@ -28,9 +28,8 @@ public interface LoanService {
     /**
      * Create an new unique loan object in the data base
      * @param loan -> The loan to create (without id)
-     * @throws EntityExistException -> Throwed if a loan with the same name already exist
      */
-    void create(Loan loan) throws EntityExistException;
+    void create(Loan loan);
 
     /**
      * Delete a unique loan object in the data base by is id

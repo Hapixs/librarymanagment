@@ -2,7 +2,6 @@ package fr.alexandresarouille.services;
 
 import fr.alexandresarouille.dao.LoanRepository;
 import fr.alexandresarouille.entities.Loan;
-import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public void create(Loan loan) throws EntityExistException {
+    public void create(Loan loan) {
         repository.save(loan);
     }
 

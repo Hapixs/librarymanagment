@@ -1,7 +1,6 @@
 package fr.alexandresarouille.services;
 
 import fr.alexandresarouille.dao.UserRepository;
-import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.entities.Role;
 import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
