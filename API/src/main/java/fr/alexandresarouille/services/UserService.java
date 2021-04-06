@@ -36,8 +36,9 @@ public interface UserService extends UserDetailsService {
      * Create an new unique user object in the data base
      * @param user -> The user to create (without id)
      * @throws EntityExistException -> Throwed if a user with the same name already exist
+     * @return
      */
-    void create(User user) throws EntityExistException;
+    User create(User user) throws EntityExistException;
 
     /**
      * Delete a unique user object in the data base by is id
@@ -52,5 +53,5 @@ public interface UserService extends UserDetailsService {
      * @param user -> changes to make
      * @throws EntityNotExistException -> throwed if the id dosn't watch with any user
      */
-    void edit(int id, User user) throws EntityNotExistException;
+    User edit(int id, User user) throws EntityNotExistException;
 }

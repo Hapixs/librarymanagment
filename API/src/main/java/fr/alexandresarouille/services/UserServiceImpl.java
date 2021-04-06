@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public User findByIdIfExist(int id) throws EntityNotExistException {
         Optional<User> optionalUser = findById(id);
         if(!optionalUser.isPresent())
-            throw new EntityNotExistException(User.class, id);
+            throw new EntityNotExistException("Cette utilisateur n'existe pas ou plus.");
 
         return optionalUser.get();
     }
@@ -47,15 +47,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(User user) throws EntityExistException {
+    public User create(User user) throws EntityExistException {
         Optional<User> optionalUser = findByEmail(user.getEmail());
         if(optionalUser.isPresent())
-            throw new EntityExistException(User.class, optionalUser.get().getUniqueId());
+            throw new EntityExistException("L'utilisateur avec la même adresse mail existe déjà");
 
         if(user.getRole() == null) user.setRole(Role.USER);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        repository.saveAndFlush(user);
+        return repository.saveAndFlush(user);
     }
 
     @Override
@@ -64,27 +64,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void edit(int id, User user) throws EntityNotExistException {
+    public User edit(int id, User user) throws EntityNotExistException {
         User target = findByIdIfExist(id);
-
-        target.setEmail((user.getEmail() == null || user.getEmail().isEmpty()) ? target.getEmail() : user.getEmail());
-        target.setFirstName((user.getFirstName() == null || user.getFirstName().isEmpty()) ? target.getFirstName() : user.getFirstName());
-        target.setName((user.getName() == null || user.getName().isEmpty()) ? target.getName() : user.getName());
-        target.setPassword((user.getPassword() == null || user.getPassword().isEmpty()) ? target.getPassword() : user.getPassword());
-        target.setRole((user.getRole() == null) ? target.getRole() : user.getRole());
-
-        repository.saveAndFlush(target);
+        target.setEmail(user.getEmail());
+        target.setFirstName(user.getFirstName());
+        target.setName(user.getName());
+        target.setPassword(user.getPassword());
+        target.setRole(user.getRole());
+        return repository.saveAndFlush(target);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> optionalUser = findByEmail(email);
+
         if(!optionalUser.isPresent())
             throw new UsernameNotFoundException("Utilisateur introuvable");
 
         User user = optionalUser.get();
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority(user.getRole().toString()));
+
 
 
         return new org.springframework.security.core.userdetails.User(

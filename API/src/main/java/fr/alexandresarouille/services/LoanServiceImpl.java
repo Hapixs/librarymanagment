@@ -2,8 +2,11 @@ package fr.alexandresarouille.services;
 
 import fr.alexandresarouille.dao.LoanRepository;
 import fr.alexandresarouille.entities.Loan;
+import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,6 +15,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class LoanServiceImpl implements LoanService {
+
     @Autowired
     private LoanRepository repository;
 
@@ -24,14 +28,14 @@ public class LoanServiceImpl implements LoanService {
     public Loan findByIdIfExist(int id) throws EntityNotExistException {
         Optional<Loan> optionalLoan = findById(id);
         if(!optionalLoan.isPresent())
-            throw new EntityNotExistException(Loan.class, id);
+            throw new EntityNotExistException("Ce prèt n'existe pas ou plus.");
 
         return optionalLoan.get();
     }
 
     @Override
-    public void create(Loan loan) {
-        repository.save(loan);
+    public Loan create(Loan loan) {
+        return repository.save(loan);
     }
 
     @Override
@@ -40,14 +44,17 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public void edit(int id, Loan loan) throws EntityNotExistException {
+    public Loan edit(int id, Loan loan) throws EntityNotExistException {
         Loan target = findByIdIfExist(id);
+        target.setBook(loan.getBook());
+        target.setUser(loan.getUser());
+        target.setDateStart(loan.getDateStart());
+        target.setDateEnd(loan.getDateEnd());
+        return repository.saveAndFlush(target);
+    }
 
-        target.setBook((loan.getBook() == null) ? target.getBook() : loan.getBook());
-        target.setUser((loan.getUser() == null) ? target.getUser() : loan.getUser());
-        target.setDateStart((loan.getDateStart() == null) ? target.getDateStart() : loan.getDateStart());
-        target.setDateEnd((loan.getDateEnd() == null) ? target.getDateEnd() : loan.getDateEnd());
-
-        repository.saveAndFlush(target);
+    @Override
+    public Page<Loan> findAllByUser(PageRequest pageRequest, User user) {
+        return repository.findAllByUser(pageRequest, user);
     }
 }

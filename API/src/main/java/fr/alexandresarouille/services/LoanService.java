@@ -2,8 +2,10 @@ package fr.alexandresarouille.services;
 
 
 import fr.alexandresarouille.entities.Loan;
-import fr.alexandresarouille.exceptions.EntityExistException;
+import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Optional;
 
@@ -28,8 +30,9 @@ public interface LoanService {
     /**
      * Create an new unique loan object in the data base
      * @param loan -> The loan to create (without id)
+     * @return
      */
-    void create(Loan loan);
+    Loan create(Loan loan);
 
     /**
      * Delete a unique loan object in the data base by is id
@@ -43,7 +46,15 @@ public interface LoanService {
      * @param id -> Id of the targeted loan
      * @param loan -> changes to make
      * @throws EntityNotExistException -> throwed if the id dosn't watch with any loan
+     * @return
      */
-    void edit(int id, Loan loan) throws EntityNotExistException;
+    Loan edit(int id, Loan loan) throws EntityNotExistException;
 
+    /**
+     * Get all loans specified by a user
+     * @param pageRequest -> List Size and item to return
+     * @param user -> Targeted user
+     * @return the list of a user's loans
+     */
+    Page<Loan> findAllByUser(PageRequest pageRequest, User user);
 }

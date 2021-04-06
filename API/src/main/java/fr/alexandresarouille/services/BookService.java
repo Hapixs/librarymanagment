@@ -35,8 +35,9 @@ public interface BookService {
      * Create an new unique book object in the data base
      * @param book -> The book to create (without id)
      * @throws EntityExistException -> Throwed if a book with the same name already exist
+     * @return The created book
      */
-    void create(Book book) throws EntityExistException;
+    Book create(Book book) throws EntityExistException;
 
     /**
      * Delete a unique book object in the data base by is id
@@ -50,6 +51,7 @@ public interface BookService {
      * @param id -> Id of the targeted book
      * @param book -> changes to make
      * @throws EntityNotExistException -> throwed if the id dosn't watch with any book
+     * @return The edited book
      */
-    void edit(int id, Book book) throws EntityNotExistException;
+    Book edit(int id, Book book) throws EntityNotExistException;
 }
