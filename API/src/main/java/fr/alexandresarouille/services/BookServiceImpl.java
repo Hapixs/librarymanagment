@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -18,46 +19,40 @@ public class BookServiceImpl implements BookService {
     private BookRepository repository;
 
     @Override
-    public Optional<Book> findById(int id) {
+    public Optional<Book> findById(@NotNull int id) {
         return repository.findById(id);
     }
 
     @Override
-    public Book findByIdIfExist(int id) throws EntityNotExistException {
-        Optional<Book> optionalBook = findById(id);
-        if(!optionalBook.isPresent())
-            throw new EntityNotExistException(Book.class, id);
-
-        return optionalBook.get();
+    public Book findByIdIfExist(@NotNull int id) throws EntityNotExistException {
+        return findById(id).orElseThrow(() -> new EntityNotExistException("Il semblerais que ce livre n'existe pas."));
     }
 
     @Override
-    public Optional<Book> findByName(String name) {
+    public Optional<Book> findByName(@NotNull String name) {
         return repository.findByName(name);
     }
 
     @Override
-    public void create(Book book) throws EntityExistException {
+    public Book create(@NotNull Book book) throws EntityExistException {
         Optional<Book> optionalBook = findByName(book.getName());
         if(optionalBook.isPresent())
-            throw new EntityExistException(Book.class, optionalBook.get().getUniqueId());
+            throw new EntityExistException("Un livre avec le même nom existe déjà");
 
-        repository.saveAndFlush(book);
+        return repository.saveAndFlush(book);
     }
 
     @Override
-    public void delete(int id) throws EntityNotExistException {
+    public void delete(@NotNull int id) throws EntityNotExistException {
         repository.delete(findByIdIfExist(id));
     }
 
     @Override
-    public void edit(int id, Book book) throws EntityNotExistException {
+    public Book edit(@NotNull int id, @NotNull Book book) throws EntityNotExistException {
         Book target = findByIdIfExist(id);
-
-        target.setAuthor((book.getAuthor() == null || book.getAuthor().isEmpty()) ? target.getAuthor() : book.getAuthor());
-        target.setName((book.getName() == null || book.getName().isEmpty()) ? target.getName() : book.getName());
-        target.setQuantity((book.getQuantity() == null) ? target.getQuantity() : book.getQuantity());
-
-        repository.saveAndFlush(target);
+        target.setName(book.getName());
+        target.setAuthor(book.getAuthor());
+        target.setQuantity(book.getQuantity());
+        return repository.saveAndFlush(target);
     }
 }
