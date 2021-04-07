@@ -6,6 +6,7 @@ import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
@@ -15,7 +16,7 @@ public interface UserService extends UserDetailsService {
      * @param id -> Id of the user
      * @return an optional containing the user if he was found
      */
-    Optional<User> findById(int id);
+    Optional<User> findById(@NotNull int id);
 
     /**
      * Get a user from the data base by his id
@@ -23,14 +24,14 @@ public interface UserService extends UserDetailsService {
      * @return -> The user by his id
      * @throws EntityNotExistException -> Throwed if the id dosn't match with any user
      */
-    User findByIdIfExist(int id) throws EntityNotExistException;
+    User findByIdIfExist(@NotNull int id) throws EntityNotExistException;
 
     /**
      * Get a user from the data base by his email
      * @param email -> Email of the user
      * @return -> The user by his email
      */
-    Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(@NotNull String email);
 
     /**
      * Create an new unique user object in the data base
@@ -38,14 +39,14 @@ public interface UserService extends UserDetailsService {
      * @throws EntityExistException -> Throwed if a user with the same name already exist
      * @return
      */
-    User create(User user) throws EntityExistException;
+    User create(@NotNull User user) throws EntityExistException;
 
     /**
      * Delete a unique user object in the data base by is id
      * @param id -> The id of the targeted user to be deleted
      * @throws EntityNotExistException -> throwed if the id dosn't watch with any user
      */
-    void delete(int id) throws EntityNotExistException;
+    void delete(@NotNull int id) throws EntityNotExistException;
 
     /**
      * Edit à user data by is id
@@ -53,5 +54,5 @@ public interface UserService extends UserDetailsService {
      * @param user -> changes to make
      * @throws EntityNotExistException -> throwed if the id dosn't watch with any user
      */
-    User edit(int id, User user) throws EntityNotExistException;
+    User edit(@NotNull int id, @NotNull User user) throws EntityNotExistException;
 }

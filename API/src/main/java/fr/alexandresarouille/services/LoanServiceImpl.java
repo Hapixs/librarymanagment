@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -20,31 +21,27 @@ public class LoanServiceImpl implements LoanService {
     private LoanRepository repository;
 
     @Override
-    public Optional<Loan> findById(int id) {
+    public Optional<Loan> findById(@NotNull int id) {
         return repository.findById(id);
     }
 
     @Override
-    public Loan findByIdIfExist(int id) throws EntityNotExistException {
-        Optional<Loan> optionalLoan = findById(id);
-        if(!optionalLoan.isPresent())
-            throw new EntityNotExistException("Ce prèt n'existe pas ou plus.");
-
-        return optionalLoan.get();
+    public Loan findByIdIfExist(@NotNull int id) throws EntityNotExistException {
+        return findById(id).orElseThrow(() -> new EntityNotExistException("Ce prèt n'existe pas ou plus."));
     }
 
     @Override
-    public Loan create(Loan loan) {
+    public Loan create(@NotNull Loan loan) {
         return repository.save(loan);
     }
 
     @Override
-    public void delete(int id) throws EntityNotExistException {
+    public void delete(@NotNull int id) throws EntityNotExistException {
         repository.delete(findByIdIfExist(id));
     }
 
     @Override
-    public Loan edit(int id, Loan loan) throws EntityNotExistException {
+    public Loan edit(@NotNull int id,@NotNull Loan loan) throws EntityNotExistException {
         Loan target = findByIdIfExist(id);
         target.setBook(loan.getBook());
         target.setUser(loan.getUser());
@@ -54,7 +51,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Page<Loan> findAllByUser(PageRequest pageRequest, User user) {
+    public Page<Loan> findAllByUser(@NotNull PageRequest pageRequest,@NotNull User user) {
         return repository.findAllByUser(pageRequest, user);
     }
 }

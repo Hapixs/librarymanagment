@@ -17,29 +17,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create")
+    @PostMapping("")
     public User createUser(@NotNull UserDTO userDTO) throws EntityExistException {
         return userService.create(convertToUser(userDTO));
     }
 
-    @PutMapping("/edit/{id}")
+    @PutMapping("{id}")
     public User editUser(@NotNull @PathVariable int id, UserDTO userDTO) throws EntityNotExistException {
         return userService.edit(id, convertToUser(userDTO));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     public void deleteUSer(@NotNull @PathVariable int id) throws EntityNotExistException {
         userService.delete(id);
     }
 
-    private User convertToUser(UserDTO userDTO) {
+    private User convertToUser(@NotNull UserDTO userDTO) {
         User user = new User();
-
         user.setPassword(userDTO.getPassword());
         user.setFirstName(userDTO.getFirstName());
         user.setEmail(userDTO.getEmail());
         user.setRole(userDTO.getRole());
-
         return user;
     }
 }

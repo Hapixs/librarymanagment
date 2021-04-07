@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class RestExceptionHAndler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotExistException.class)
-    protected ResponseEntity<Object> handleEntityNotExistException(EntityNotExistException ex) {
+    protected ResponseEntity<Object> handleEntityNotExistException(@NotNull EntityNotExistException ex) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
@@ -31,7 +31,7 @@ public class RestExceptionHAndler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
+    private ResponseEntity<Object> buildResponseEntity(@NotNull ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 }

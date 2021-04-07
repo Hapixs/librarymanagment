@@ -9,5 +9,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Integer> {
+    /**
+     * Retrieve a array of loan belonging by a specified user
+     *
+     * @param pageRequest The array of loans
+     * @param user The specified user
+     * @return The array of loan
+     */
     Page<Loan> findAllByUser(PageRequest pageRequest, User user);
 }

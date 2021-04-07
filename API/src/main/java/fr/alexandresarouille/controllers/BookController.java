@@ -6,9 +6,7 @@ import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,28 +16,26 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @PostMapping("/create")
+    @PostMapping
     private Book createBook(@NotNull BookDTO bookDTO) throws EntityExistException {
         return bookService.create(convertToBook(bookDTO));
     }
 
-    @PostMapping("/edit/{id}")
+    @PutMapping("{id}")
     private Book editBook(@NotNull @PathVariable int id, @NotNull BookDTO bookDTO) throws EntityNotExistException {
         return bookService.edit(id, convertToBook(bookDTO));
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     private void deleteBook(@NotNull @PathVariable int id) throws EntityNotExistException {
         bookService.delete(id);
     }
 
-    private Book convertToBook(BookDTO bookDTO) {
+    private Book convertToBook(@NotNull BookDTO bookDTO) {
         Book book = new Book();
-
         book.setQuantity(bookDTO.getQuantity());
         book.setName(bookDTO.getName());
         book.setAuthor(bookDTO.getAuthor());
-
         return book;
     }
 }

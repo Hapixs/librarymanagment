@@ -6,10 +6,9 @@ import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -20,26 +19,22 @@ public class BookServiceImpl implements BookService {
     private BookRepository repository;
 
     @Override
-    public Optional<Book> findById(int id) {
+    public Optional<Book> findById(@NotNull int id) {
         return repository.findById(id);
     }
 
     @Override
-    public Book findByIdIfExist(int id) throws EntityNotExistException {
-        Optional<Book> optionalBook = findById(id);
-        if(!optionalBook.isPresent())
-            throw new EntityNotExistException("Il semblerais que ce livre n'existe pas.");
-
-        return optionalBook.get();
+    public Book findByIdIfExist(@NotNull int id) throws EntityNotExistException {
+        return findById(id).orElseThrow(() -> new EntityNotExistException("Il semblerais que ce livre n'existe pas."));
     }
 
     @Override
-    public Optional<Book> findByName(String name) {
+    public Optional<Book> findByName(@NotNull String name) {
         return repository.findByName(name);
     }
 
     @Override
-    public Book create(Book book) throws EntityExistException {
+    public Book create(@NotNull Book book) throws EntityExistException {
         Optional<Book> optionalBook = findByName(book.getName());
         if(optionalBook.isPresent())
             throw new EntityExistException("Un livre avec le même nom existe déjà");
@@ -48,12 +43,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void delete(int id) throws EntityNotExistException {
+    public void delete(@NotNull int id) throws EntityNotExistException {
         repository.delete(findByIdIfExist(id));
     }
 
     @Override
-    public Book edit(int id, Book book) throws EntityNotExistException {
+    public Book edit(@NotNull int id, @NotNull Book book) throws EntityNotExistException {
         Book target = findByIdIfExist(id);
         target.setName(book.getName());
         target.setAuthor(book.getAuthor());
