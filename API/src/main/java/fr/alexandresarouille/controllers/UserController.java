@@ -18,6 +18,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("{id}")
+    public User getFromId(@NotNull @PathVariable int id) throws EntityNotExistException {
+        return userService.findByIdIfExist(id);
+    }
     @PostMapping
     public User createUser(@NotNull UserDTO userDTO) throws EntityExistException {
         return userService.create(convertToUser(userDTO));
