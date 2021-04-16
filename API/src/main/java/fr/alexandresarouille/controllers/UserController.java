@@ -5,19 +5,20 @@ import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.services.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
-
-@RestController("/users")
+@RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
+    @PostMapping
     public User createUser(@NotNull UserDTO userDTO) throws EntityExistException {
         return userService.create(convertToUser(userDTO));
     }
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteUSer(@NotNull @PathVariable int id) throws EntityNotExistException {
+    public void deleteUser(@NotNull @PathVariable int id) throws EntityNotExistException {
         userService.delete(id);
     }
 

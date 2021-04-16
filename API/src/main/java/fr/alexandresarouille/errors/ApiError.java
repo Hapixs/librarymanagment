@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class ApiError {

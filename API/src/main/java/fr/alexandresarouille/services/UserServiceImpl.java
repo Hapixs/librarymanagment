@@ -5,16 +5,14 @@ import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+/*import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+*/import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
+   /* @Override
     public UserDetails loadUserByUsername(@NotNull String email) throws UsernameNotFoundException {
         User user = findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
 
@@ -75,5 +73,5 @@ public class UserServiceImpl implements UserService {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), authorityList
         );
-    }
+    }*/
 }

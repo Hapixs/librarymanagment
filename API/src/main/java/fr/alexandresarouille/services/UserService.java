@@ -4,12 +4,12 @@ package fr.alexandresarouille.services;
 import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
-import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
-public interface UserService extends UserDetailsService {
+public interface UserService /* extends UserDetailsService*/ {
 
     /**
      * Get or not a user from the data base by his id
