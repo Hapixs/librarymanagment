@@ -36,3 +36,6 @@ build/
 ### TARGET ###
 target/**
 **/target/**
+API/target/**
+BATCH/**
+WEB/target/**
