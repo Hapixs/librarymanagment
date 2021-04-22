@@ -1,6 +1,7 @@
 package fr.alexandresarouille.services;
 
 import fr.alexandresarouille.dao.BookRepository;
+import fr.alexandresarouille.dto.BookDTO;
 import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
@@ -23,36 +24,48 @@ public class BookServiceImpl implements BookService {
         return repository.findById(id);
     }
 
+
+    /**
+     * {@link BookService#findById(int)}
+     */
     @Override
     public Book findByIdIfExist(@NotNull int id) throws EntityNotExistException {
         return findById(id).orElseThrow(() -> new EntityNotExistException("Il semblerais que ce livre n'existe pas."));
     }
 
+    /**
+     * {@link BookService#findByName(String)}
+     */
     @Override
     public Optional<Book> findByName(@NotNull String name) {
         return repository.findByName(name);
     }
 
+    /**
+     * {@link BookService#create(BookDTO)}
+     */
     @Override
-    public Book create(@NotNull Book book) throws EntityExistException {
-        Optional<Book> optionalBook = findByName(book.getName());
-        if(optionalBook.isPresent())
+    public Book create(@NotNull BookDTO bookDTO) throws EntityExistException {
+        Optional<Book> optionalBook = findByName(bookDTO.getName());
+        if (optionalBook.isPresent())
             throw new EntityExistException("Un livre avec le même nom existe déjà");
+
+        Book book = convertFromDTO(bookDTO);
 
         return repository.saveAndFlush(book);
     }
 
-    @Override
-    public void delete(@NotNull int id) throws EntityNotExistException {
-        repository.delete(findByIdIfExist(id));
-    }
-
-    @Override
-    public Book edit(@NotNull int id, @NotNull Book book) throws EntityNotExistException {
-        Book target = findByIdIfExist(id);
-        target.setName(book.getName());
-        target.setAuthor(book.getAuthor());
-        target.setQuantity(book.getQuantity());
-        return repository.saveAndFlush(target);
+    /**
+     * Convert a bookDTO object to a Book object
+     *
+     * @param bookDTO {@link BookDTO}
+     * @return {@link Book}
+     */
+    private Book convertFromDTO(@NotNull BookDTO bookDTO) {
+        Book book = new Book();
+        book.setAuthor(bookDTO.getAuthor());
+        book.setQuantity(bookDTO.getQuantity());
+        book.setName(bookDTO.getName());
+        return book;
     }
 }

@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
+/**
+ * Entity representing a book stored in the database.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

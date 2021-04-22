@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
+
     /**
      * @param name Name of the book
      * @return An optional containing a book if the name match

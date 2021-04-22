@@ -4,50 +4,63 @@ import fr.alexandresarouille.dto.LoanDTO;
 import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.entities.Loan;
 import fr.alexandresarouille.entities.User;
+import fr.alexandresarouille.exceptions.BookNoQuantityException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
+import fr.alexandresarouille.exceptions.LoanAlreadyExtendedException;
+import fr.alexandresarouille.exceptions.SameBookLoanForUserException;
 import fr.alexandresarouille.services.BookService;
 import fr.alexandresarouille.services.LoanService;
 import fr.alexandresarouille.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Rest controller for the loan entity
+ * Called with the path: {host}/loans/
+ *
+ * Working with the loanService {@link LoanService}
+ */
 @RestController
-@RequestMapping("/loans")
+@RequestMapping("/loans/")
 public class LoanController {
 
+    /**
+     * Instance of the loan services called by the rest methods
+     * {@link LoanService}
+     */
     @Autowired
     private LoanService loanService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private BookService bookService;
 
-
+    /**
+     * Create a loan instance in the database
+     *
+     * see also:
+     * {@link LoanService#create(LoanDTO)}
+     *
+     * @param loanDTO {@link LoanDTO}
+     * @return {@link Loan}
+     * @throws EntityNotExistException {@link EntityNotExistException}
+     * @throws SameBookLoanForUserException {@link SameBookLoanForUserException}
+     * @throws BookNoQuantityException {@link BookNoQuantityException}
+     */
     @PostMapping
-    public Loan createLoan(@NotNull LoanDTO loanDTO) throws EntityNotExistException {
-        return loanService.create(convertToLoan(loanDTO));
+    public Loan createLoan(@Valid LoanDTO loanDTO) throws EntityNotExistException, SameBookLoanForUserException, BookNoQuantityException {
+        return loanService.create(loanDTO);
     }
 
+    /**
+     * Extend by 4 week a specified loan if it not already been extended
+     *
+     * @param id the loan's id
+     * @return {@link Loan}
+     * @throws EntityNotExistException {@link EntityNotExistException}
+     * @throws LoanAlreadyExtendedException {@link LoanAlreadyExtendedException}
+     */
     @PutMapping("{id}")
-    public Loan editLoan(@NotNull @PathVariable int id, @NotNull LoanDTO loanDTO) throws EntityNotExistException {
-        return loanService.edit(id, convertToLoan(loanDTO));
-    }
-
-    @DeleteMapping("{id}")
-    public void deleteLoan(@NotNull @PathVariable int id) throws EntityNotExistException {
-        loanService.delete(id);
-    }
-
-    private Loan convertToLoan(@NotNull LoanDTO loanDTO) throws EntityNotExistException {
-        User user = userService.findByIdIfExist(loanDTO.getUserId());
-        Book book = bookService.findByIdIfExist(loanDTO.getBookId());
-        Loan loan = new Loan();
-        loan.setBook(book);
-        loan.setUser(user);
-        loan.setDateStart(loanDTO.getDateStart());
-        loan.setDateEnd(loanDTO.getDateEnd());
-        return loan;
+    public Loan extendLoan(@NotNull @PathVariable int id) throws EntityNotExistException, LoanAlreadyExtendedException {
+        return loanService.extendLoan(id);
     }
 }

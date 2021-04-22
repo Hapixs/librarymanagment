@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ * Entity representing a loan stored in the database.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,9 +40,13 @@ public class Loan {
     /**
      * Date which the book was loaned
      */
-    private Date dateStart;
+    private LocalDateTime dateStart;
     /**
      * Date which the book need to be return
      */
-    private Date dateEnd;
+    private LocalDateTime dateEnd;
+    /**
+     * Date which the book get return
+     */
+    private LocalDateTime dateReturn;
 }

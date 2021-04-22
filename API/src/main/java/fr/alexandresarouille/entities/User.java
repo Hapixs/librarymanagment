@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * Entity representing a user stored in the database.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

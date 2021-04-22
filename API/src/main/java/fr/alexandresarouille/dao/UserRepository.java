@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     /**
      * Search a user in the database refered to the email
+     *
      * @param email The email of the wanted user
      * @return An optional object containing the user if he was found
      */

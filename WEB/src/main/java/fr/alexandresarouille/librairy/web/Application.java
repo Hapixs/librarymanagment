@@ -1,6 +1,5 @@
 package fr.alexandresarouille.librairy.web;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -11,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
+
+    public static StringBuilder restHostURL = new StringBuilder("http://localhost:8080/");
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -25,7 +26,4 @@ public class Application extends SpringBootServletInitializer {
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
-
-
-    public static StringBuilder restHostURL = new StringBuilder("http://localhost:8080/");
 }
