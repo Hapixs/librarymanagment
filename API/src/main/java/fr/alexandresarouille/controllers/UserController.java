@@ -5,44 +5,48 @@ import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.services.UserService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Rest controller for the user entity
+ * Called with the path: {host}/users/
+ *
+ * Working with the UserService {@link UserService}
+ */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users/")
 public class UserController {
 
+    /**
+     * Instance of the user service called by the rest methods
+     *
+     * see also:
+     * {@link UserService}
+     */
     @Autowired
     private UserService userService;
 
+    // TODO: modify with the user's email
     @GetMapping("{id}")
     public User getFromId(@NotNull @PathVariable int id) throws EntityNotExistException {
         return userService.findByIdIfExist(id);
     }
+
+    /**
+     * Create a user instance in the database if the specified email dose not already exist
+     *
+     * see also:
+     * {@link UserService#create(UserDTO)}
+     *
+     * @return {@link User}
+     * @throws EntityExistException {@link EntityExistException}
+     */
     @PostMapping
-    public User createUser(@NotNull UserDTO userDTO) throws EntityExistException {
-        return userService.create(convertToUser(userDTO));
-    }
-
-    @PutMapping("{id}")
-    public User editUser(@NotNull @PathVariable int id, UserDTO userDTO) throws EntityNotExistException {
-        return userService.edit(id, convertToUser(userDTO));
-    }
-
-    @DeleteMapping("{id}")
-    public void deleteUser(@NotNull @PathVariable int id) throws EntityNotExistException {
-        userService.delete(id);
-    }
-
-    private User convertToUser(@NotNull UserDTO userDTO) {
-        User user = new User();
-        user.setPassword(userDTO.getPassword());
-        user.setFirstName(userDTO.getFirstName());
-        user.setEmail(userDTO.getEmail());
-        user.setRole(userDTO.getRole());
-        return user;
+    public User createUser(@Valid UserDTO userDTO) throws EntityExistException {
+        return userService.create(userDTO);
     }
 }

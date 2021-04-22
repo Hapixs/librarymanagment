@@ -8,35 +8,38 @@ import fr.alexandresarouille.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Rest controller for the book entity
+ * Called with the path: {host}/books/
+ *
+ * Working with bookService ({@link BookService})
+ */
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/books/")
 public class BookController {
 
+    /**
+     * Instance of the book service called by the rest methods
+     * {@link BookService}
+     */
     @Autowired
     private BookService bookService;
 
+    /**
+     * Create a book instance in the database if no book with the same name already exist
+     *
+     * see also:
+     * {@link BookService#create(BookDTO)}
+     *
+     * @param bookDTO {@link BookDTO}
+     * @return {@link Book}
+     * @throws EntityExistException {@link EntityExistException}
+     */
     @PostMapping
-    private Book createBook(@NotNull BookDTO bookDTO) throws EntityExistException {
-        return bookService.create(convertToBook(bookDTO));
-    }
-
-    @PutMapping("{id}")
-    private Book editBook(@NotNull @PathVariable int id, @NotNull BookDTO bookDTO) throws EntityNotExistException {
-        return bookService.edit(id, convertToBook(bookDTO));
-    }
-
-    @DeleteMapping("{id}")
-    private void deleteBook(@NotNull @PathVariable int id) throws EntityNotExistException {
-        bookService.delete(id);
-    }
-
-    private Book convertToBook(@NotNull BookDTO bookDTO) {
-        Book book = new Book();
-        book.setQuantity(bookDTO.getQuantity());
-        book.setName(bookDTO.getName());
-        book.setAuthor(bookDTO.getAuthor());
-        return book;
+    public Book createBook(@Valid BookDTO bookDTO) throws EntityExistException {
+        return bookService.create(bookDTO);
     }
 }

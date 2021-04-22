@@ -17,7 +17,7 @@ public class ApiError {
     private HttpStatus status;
 
     /**
-     *  Local date of when the error occured
+     * Local date of when the error occured
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyy hh:mm:ss")
     private LocalDateTime localDateTime;
@@ -32,24 +32,11 @@ public class ApiError {
      */
     private String debugMessage;
 
-    public ApiError() {
+    public ApiError(@NotNull HttpStatus status, @NotNull String message, @NotNull Throwable throwable) {
         localDateTime = LocalDateTime.now();
-    }
-
-    public ApiError(@NotNull HttpStatus status) {
-        this();
         this.status=status;
-    }
-
-    public ApiError(@NotNull HttpStatus status,@NotNull Throwable throwable) {
-        this(status);
-        this.message = "Erreur inatendue";
         this.debugMessage = throwable.getLocalizedMessage();
-    }
-
-    public ApiError(@NotNull HttpStatus status,@NotNull String message,@NotNull Throwable throwable) {
-        this(status, throwable);
-        this.message=message;
+        this.message = message;
     }
 
 }
