@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @RequestMapping("users")
 public class UserController {
 
-    private static StringBuilder url = Application.restHostURL.append("users/");
+    private static final StringBuilder url = Application.restHostURL.append("users/");
 
     @Autowired
     private RestTemplate restTemplate;
