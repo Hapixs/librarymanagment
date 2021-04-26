@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
@@ -97,6 +98,11 @@ public class LoanServiceImpl implements LoanService {
         loan.setDateEnd(dateEnd.plusWeeks(4));
 
         return repository.saveAndFlush(loan);
+    }
+
+    @Override
+    public Collection<Loan> getAllExceededLoan() {
+        return repository.findAllExceeded(LocalDateTime.now());
     }
 
     /**

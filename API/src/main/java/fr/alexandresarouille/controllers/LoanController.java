@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 /**
  * Rest controller for the loan entity
@@ -62,5 +63,10 @@ public class LoanController {
     @PutMapping("{id}")
     public Loan extendLoan(@NotNull @PathVariable int id) throws EntityNotExistException, LoanAlreadyExtendedException {
         return loanService.extendLoan(id);
+    }
+
+    @GetMapping("/exceeded")
+    public Collection<Loan> getExceededLoans() {
+        return loanService.getAllExceededLoan();
     }
 }

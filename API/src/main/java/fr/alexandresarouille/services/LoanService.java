@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.Optional;
 
 
@@ -63,4 +64,6 @@ public interface LoanService {
      * @throws LoanAlreadyExtendedException {@link LoanAlreadyExtendedException}
      */
     Loan extendLoan(@NotNull int id) throws EntityNotExistException, LoanAlreadyExtendedException;
+
+    Collection<Loan> getAllExceededLoan();
 }
