@@ -6,19 +6,30 @@ import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
+/**
+ * {@link BookService}
+ */
 @Service
 @Transactional
 public class BookServiceImpl implements BookService {
 
+    /**
+     * {@link BookRepository}
+     */
     @Autowired
     private BookRepository repository;
 
+    /**
+     * {@link BookService#findById(int)}
+     */
     @Override
     public Optional<Book> findById(@NotNull int id) {
         return repository.findById(id);
@@ -53,6 +64,14 @@ public class BookServiceImpl implements BookService {
         Book book = convertFromDTO(bookDTO);
 
         return repository.saveAndFlush(book);
+    }
+
+    /**
+     * {@link BookService#findAll(Pageable)}
+     */
+    @Override
+    public Page<Book> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     /**

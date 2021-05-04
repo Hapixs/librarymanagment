@@ -6,6 +6,11 @@ import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,11 +23,12 @@ import javax.validation.constraints.NotNull;
  * Working with bookService ({@link BookService})
  */
 @RestController
-@RequestMapping("/books/")
+@RequestMapping("/books")
 public class BookController {
 
     /**
      * Instance of the book service called by the rest methods
+     *
      * {@link BookService}
      */
     @Autowired
@@ -38,8 +44,31 @@ public class BookController {
      * @return {@link Book}
      * @throws EntityExistException {@link EntityExistException}
      */
-    @PostMapping
-    public Book createBook(@Valid BookDTO bookDTO) throws EntityExistException {
-        return bookService.create(bookDTO);
+    @PostMapping("/create")
+    public ResponseEntity<Book> createBook(@Valid @RequestBody BookDTO bookDTO) throws EntityExistException {
+        return new ResponseEntity<>(bookService.create(bookDTO), HttpStatus.CREATED);
+    }
+
+    /**
+     * find a specified book by is id
+     *
+     * @param id the book's id
+     * @return {@link Book}
+     * @throws EntityNotExistException {@link EntityNotExistException}
+     */
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Book> findById(@PathVariable int id) throws EntityNotExistException {
+        return new ResponseEntity<>(bookService.findByIdIfExist(id), HttpStatus.OK);
+    }
+
+    /**
+     * List all registered books in the database
+     *
+     * @param pageable the pageable param to return
+     * @return a page of book
+     */
+    @GetMapping("/listAll")
+    public ResponseEntity<Page<Book>> listAllBook(@NotNull Pageable pageable) {
+        return new ResponseEntity<>(bookService.findAll(pageable), HttpStatus.OK);
     }
 }

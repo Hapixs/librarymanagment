@@ -15,7 +15,10 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Optional;
 
-
+/**
+ * This service work for the loan's feature
+ * He generally work with {@link fr.alexandresarouille.dao.LoanRepository}
+ */
 public interface LoanService {
 
     /**
@@ -38,11 +41,10 @@ public interface LoanService {
     /**
      * Get all loans specified by a user
      *
-     * @param pageRequest List Size and item to return
      * @param user Targeted user {@link User}
      * @return the list of a user's loans
      */
-    Page<Loan> findAllByUser(@NotNull PageRequest pageRequest, @NotNull User user);
+    Collection<Loan> findAllByUser(@NotNull User user);
 
     /**
      * Create an new unique loan object in the data base
@@ -65,5 +67,10 @@ public interface LoanService {
      */
     Loan extendLoan(@NotNull int id) throws EntityNotExistException, LoanAlreadyExtendedException;
 
-    Collection<Loan> getAllExceededLoan();
+    /**
+     * Find all exceeded loans who are not returned
+     *
+     * @return a collection of loans
+     */
+    Collection<Loan> findAllExceededLoan();
 }

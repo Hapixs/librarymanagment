@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 
@@ -19,7 +20,7 @@ public class Book {
     /**
      * Unique id of the book
      */
-    @Id
+    @Id @GeneratedValue
     private int uniqueId;
 
     /**

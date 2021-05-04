@@ -38,8 +38,6 @@ public class UserDTO {
      * The user's password
      */
     @NotNull
-    @Min(4)
-    @Max(16)
     private String password;
 
 }

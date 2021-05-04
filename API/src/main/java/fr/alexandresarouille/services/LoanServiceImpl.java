@@ -25,15 +25,28 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
 
+/**
+ * {@link LoanService}
+ */
 @Service
 @Transactional
 public class LoanServiceImpl implements LoanService {
 
+    /**
+     * {@link LoanRepository}
+     */
     @Autowired
     private LoanRepository repository;
 
+    /**
+     * {@link UserService}
+     */
     @Autowired
     private UserService userService;
+
+    /**
+     * {@link BookService}
+     */
     @Autowired
     private BookService bookService;
 
@@ -54,11 +67,11 @@ public class LoanServiceImpl implements LoanService {
     }
 
     /**
-     * {@link LoanService#findAllByUser(PageRequest, User)}
+     * {@link LoanService#findAllByUser(User)}
      */
     @Override
-    public Page<Loan> findAllByUser(@NotNull PageRequest pageRequest, @NotNull User user) {
-        return repository.findAllByUser(pageRequest, user);
+    public Collection<Loan> findAllByUser(@NotNull User user) {
+        return repository.findAllByUser(user);
     }
 
     /**
@@ -100,8 +113,11 @@ public class LoanServiceImpl implements LoanService {
         return repository.saveAndFlush(loan);
     }
 
+    /**
+     * {@link LoanService#findAllExceededLoan()}
+     */
     @Override
-    public Collection<Loan> getAllExceededLoan() {
+    public Collection<Loan> findAllExceededLoan() {
         return repository.findAllExceeded(LocalDateTime.now());
     }
 
