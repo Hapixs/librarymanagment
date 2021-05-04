@@ -12,11 +12,16 @@ import fr.alexandresarouille.services.BookService;
 import fr.alexandresarouille.services.LoanService;
 import fr.alexandresarouille.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.awt.print.Pageable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Rest controller for the loan entity
@@ -25,7 +30,7 @@ import java.util.Collection;
  * Working with the loanService {@link LoanService}
  */
 @RestController
-@RequestMapping("/loans/")
+@RequestMapping("/loans")
 public class LoanController {
 
     /**
@@ -34,6 +39,9 @@ public class LoanController {
      */
     @Autowired
     private LoanService loanService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Create a loan instance in the database
@@ -47,9 +55,9 @@ public class LoanController {
      * @throws SameBookLoanForUserException {@link SameBookLoanForUserException}
      * @throws BookNoQuantityException {@link BookNoQuantityException}
      */
-    @PostMapping
-    public Loan createLoan(@Valid LoanDTO loanDTO) throws EntityNotExistException, SameBookLoanForUserException, BookNoQuantityException {
-        return loanService.create(loanDTO);
+    @PostMapping("/create")
+    public ResponseEntity<Loan> createLoan(@Valid @RequestBody LoanDTO loanDTO) throws EntityNotExistException, SameBookLoanForUserException, BookNoQuantityException {
+        return new ResponseEntity<>(loanService.create(loanDTO), HttpStatus.OK);
     }
 
     /**
@@ -60,13 +68,30 @@ public class LoanController {
      * @throws EntityNotExistException {@link EntityNotExistException}
      * @throws LoanAlreadyExtendedException {@link LoanAlreadyExtendedException}
      */
-    @PutMapping("{id}")
-    public Loan extendLoan(@NotNull @PathVariable int id) throws EntityNotExistException, LoanAlreadyExtendedException {
-        return loanService.extendLoan(id);
+    @PutMapping("/extend/{id}")
+    public ResponseEntity<Loan> extendLoan(@NotNull @PathVariable int id) throws EntityNotExistException, LoanAlreadyExtendedException {
+        return new ResponseEntity<>(loanService.extendLoan(id), HttpStatus.OK);
     }
 
+    /**
+     * List all exceeded loans
+     *
+     * @return a collection of loans
+     */
     @GetMapping("/exceeded")
-    public Collection<Loan> getExceededLoans() {
-        return loanService.getAllExceededLoan();
+    public ResponseEntity<Collection<Loan>> getExceededLoans() {
+        return new ResponseEntity<>(loanService.findAllExceededLoan(), HttpStatus.OK);
+    }
+
+    /**
+     * List all loan from a user
+     *
+     * @param id the user's id
+     * @return a collection of loans
+     * @throws EntityNotExistException {@link EntityNotExistException}
+     */
+    @GetMapping("/fromUser/{id}")
+    public ResponseEntity<Collection<Loan>> findAllFromUser(@NotNull @PathVariable int id) throws EntityNotExistException {
+        return new ResponseEntity<>(loanService.findAllByUser(userService.findByIdIfExist(id)), HttpStatus.OK);
     }
 }

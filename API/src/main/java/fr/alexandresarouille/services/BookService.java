@@ -5,10 +5,16 @@ import fr.alexandresarouille.dto.BookDTO;
 import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
+/**
+ * This service work for the book's feature
+ * He generally work with {@link fr.alexandresarouille.dao.BookRepository}
+ */
 public interface BookService {
 
     /**
@@ -44,4 +50,12 @@ public interface BookService {
      * @throws EntityExistException {@link EntityExistException}
      */
     Book create(@NotNull BookDTO bookDTO) throws EntityExistException;
+
+    /**
+     * Find all books in the database
+     *
+     * @param pageable the page param
+     * @return a page of books
+     */
+    Page<Book> findAll(@NotNull Pageable pageable);
 }

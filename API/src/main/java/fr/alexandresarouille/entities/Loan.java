@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class Loan {
     /**
      * Unique id of the loan
      */
-    @Id
+    @Id @GeneratedValue
     private int uniqueId;
 
     /**

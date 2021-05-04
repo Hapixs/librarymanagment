@@ -13,6 +13,9 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
+/**
+ * {@link UserService}
+ */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {

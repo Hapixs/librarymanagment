@@ -20,11 +20,10 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
     /**
      * Retrieve a array of loan belonging by a specified user
      *
-     * @param pageRequest The array of loans
      * @param user The specified user
      * @return The array of loan
      */
-    Page<Loan> findAllByUser(PageRequest pageRequest, User user);
+    Collection<Loan> findAllByUser(User user);
 
     /**
      * Retrieve a unique loan specified by it user and it book
@@ -35,7 +34,12 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
      */
     Optional<Loan> findByUserAndBook(User user, Book book);
 
-
+    /**
+     * Find all exceeded loans not returned in the database
+     *
+     * @param localDateTime the local date time
+     * @return a collection of loans
+     */
     @Query("SELECT loan FROM Loan loan WHERE loan.dateEnd <= :localdate AND loan.dateReturn IS NULL")
     Collection<Loan> findAllExceeded(@Param("localdate") LocalDateTime localDateTime);
 

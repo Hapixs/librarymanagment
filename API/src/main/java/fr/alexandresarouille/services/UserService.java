@@ -9,6 +9,10 @@ import fr.alexandresarouille.exceptions.EntityNotExistException;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
+/**
+ * This service work for the user's feature
+ * He generally work with {@link fr.alexandresarouille.dao.UserRepository}
+ */
 public interface UserService /* extends UserDetailsService*/ {
 
     /**
