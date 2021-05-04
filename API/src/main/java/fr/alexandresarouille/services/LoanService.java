@@ -8,8 +8,6 @@ import fr.alexandresarouille.exceptions.BookNoQuantityException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.exceptions.LoanAlreadyExtendedException;
 import fr.alexandresarouille.exceptions.SameBookLoanForUserException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;

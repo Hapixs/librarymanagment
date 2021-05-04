@@ -1,27 +1,21 @@
 package fr.alexandresarouille.controllers;
 
 import fr.alexandresarouille.dto.LoanDTO;
-import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.entities.Loan;
-import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.BookNoQuantityException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.exceptions.LoanAlreadyExtendedException;
 import fr.alexandresarouille.exceptions.SameBookLoanForUserException;
-import fr.alexandresarouille.services.BookService;
 import fr.alexandresarouille.services.LoanService;
 import fr.alexandresarouille.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.awt.print.Pageable;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Rest controller for the loan entity

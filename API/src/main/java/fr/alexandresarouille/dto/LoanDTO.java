@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.Date;
 
 /**
  * The LoanDTO object is used to transfert loan's information to the rest controllers.

@@ -1,7 +1,6 @@
 package fr.alexandresarouille.services;
 
 import fr.alexandresarouille.dao.LoanRepository;
-import fr.alexandresarouille.dto.BookDTO;
 import fr.alexandresarouille.dto.LoanDTO;
 import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.entities.Loan;
@@ -10,10 +9,7 @@ import fr.alexandresarouille.exceptions.BookNoQuantityException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.exceptions.LoanAlreadyExtendedException;
 import fr.alexandresarouille.exceptions.SameBookLoanForUserException;
-import javafx.util.converter.LocalDateTimeStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,8 +17,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Optional;
 
 /**
