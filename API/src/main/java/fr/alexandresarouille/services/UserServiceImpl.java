@@ -1,16 +1,26 @@
 package fr.alexandresarouille.services;
 
 import fr.alexandresarouille.dao.UserRepository;
+import fr.alexandresarouille.dto.LoginDTO;
 import fr.alexandresarouille.dto.UserDTO;
 import fr.alexandresarouille.entities.Role;
 import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,6 +57,14 @@ public class UserServiceImpl implements UserService {
         return repository.findByEmail(email);
     }
 
+    @Override
+    public User findByMailIfExist(String email) throws UsernameNotFoundException {
+        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
+    }
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     /**
      * {@link UserService#create(UserDTO)}
      */
@@ -64,8 +82,7 @@ public class UserServiceImpl implements UserService {
         return repository.saveAndFlush(user);
     }
 
-    // TODO: rework the security
-   /* @Override
+    @Override
     public UserDetails loadUserByUsername(@NotNull String email) throws UsernameNotFoundException {
         User user = findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
 
@@ -75,7 +92,7 @@ public class UserServiceImpl implements UserService {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), authorityList
         );
-    }*/
+    }
 
     /**
      * Convert a UserDTO object to a User object
@@ -85,7 +102,7 @@ public class UserServiceImpl implements UserService {
      */
     private User convertToUser(UserDTO userDTO) {
         User user = new User();
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setFirstName(userDTO.getFirstName());
         user.setEmail(userDTO.getEmail());
         user.setName(userDTO.getName());

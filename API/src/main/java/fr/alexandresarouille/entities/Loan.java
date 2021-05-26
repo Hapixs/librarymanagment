@@ -1,8 +1,5 @@
 package fr.alexandresarouille.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +10,19 @@ import java.time.LocalDateTime;
 /**
  * Entity representing a loan stored in the database.
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Loan {
+
+    public Loan() {
+    }
+
+    public Loan(User user, Book book, LocalDateTime dateStart, LocalDateTime dateEnd, LocalDateTime dateReturn) {
+        this.user = user;
+        this.book = book;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.dateReturn = dateReturn;
+    }
 
     /**
      * Unique id of the loan
@@ -49,4 +54,52 @@ public class Loan {
      * Date which the book get return
      */
     private LocalDateTime dateReturn;
+
+    public int getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(int uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public LocalDateTime getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(LocalDateTime dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public LocalDateTime getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(LocalDateTime dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public LocalDateTime getDateReturn() {
+        return dateReturn;
+    }
+
+    public void setDateReturn(LocalDateTime dateReturn) {
+        this.dateReturn = dateReturn;
+    }
 }

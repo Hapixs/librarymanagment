@@ -75,6 +75,14 @@ public class BookServiceImpl implements BookService {
     }
 
     /**
+     * {@link BookService#findAllByFilter(Pageable, String, String, Boolean)}
+     */
+    @Override
+    public Page<Book> findAllByFilter(Pageable pageable, String author, String name, Boolean available) {
+        return repository.findAllByFilters(pageable, author, name, available);
+    }
+
+    /**
      * Convert a bookDTO object to a Book object
      *
      * @param bookDTO {@link BookDTO}

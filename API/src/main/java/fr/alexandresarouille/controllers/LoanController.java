@@ -24,7 +24,6 @@ import java.util.Collection;
  * Working with the loanService {@link LoanService}
  */
 @RestController
-@RequestMapping("/loans")
 public class LoanController {
 
     /**
@@ -49,7 +48,7 @@ public class LoanController {
      * @throws SameBookLoanForUserException {@link SameBookLoanForUserException}
      * @throws BookNoQuantityException {@link BookNoQuantityException}
      */
-    @PostMapping("/create")
+    @PostMapping("/users/loans/")
     public ResponseEntity<Loan> createLoan(@Valid @RequestBody LoanDTO loanDTO) throws EntityNotExistException, SameBookLoanForUserException, BookNoQuantityException {
         return new ResponseEntity<>(loanService.create(loanDTO), HttpStatus.OK);
     }
@@ -62,7 +61,7 @@ public class LoanController {
      * @throws EntityNotExistException {@link EntityNotExistException}
      * @throws LoanAlreadyExtendedException {@link LoanAlreadyExtendedException}
      */
-    @PutMapping("/extend/{id}")
+    @PutMapping("/users/loans/extend/{id}")
     public ResponseEntity<Loan> extendLoan(@NotNull @PathVariable int id) throws EntityNotExistException, LoanAlreadyExtendedException {
         return new ResponseEntity<>(loanService.extendLoan(id), HttpStatus.OK);
     }
@@ -72,7 +71,7 @@ public class LoanController {
      *
      * @return a collection of loans
      */
-    @GetMapping("/exceeded")
+    @GetMapping("/batch/loans/exceeded")
     public ResponseEntity<Collection<Loan>> getExceededLoans() {
         return new ResponseEntity<>(loanService.findAllExceededLoan(), HttpStatus.OK);
     }
@@ -84,7 +83,7 @@ public class LoanController {
      * @return a collection of loans
      * @throws EntityNotExistException {@link EntityNotExistException}
      */
-    @GetMapping("/fromUser/{id}")
+    @GetMapping("/users/loans/fromUser/{id}")
     public ResponseEntity<Collection<Loan>> findAllFromUser(@NotNull @PathVariable int id) throws EntityNotExistException {
         return new ResponseEntity<>(loanService.findAllByUser(userService.findByIdIfExist(id)), HttpStatus.OK);
     }

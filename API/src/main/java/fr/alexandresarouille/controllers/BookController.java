@@ -22,7 +22,6 @@ import javax.validation.constraints.NotNull;
  * Working with bookService ({@link BookService})
  */
 @RestController
-@RequestMapping("/books")
 public class BookController {
 
     /**
@@ -43,7 +42,7 @@ public class BookController {
      * @return {@link Book}
      * @throws EntityExistException {@link EntityExistException}
      */
-    @PostMapping("/create")
+    @PostMapping("/admin/books")
     public ResponseEntity<Book> createBook(@Valid @RequestBody BookDTO bookDTO) throws EntityExistException {
         return new ResponseEntity<>(bookService.create(bookDTO), HttpStatus.CREATED);
     }
@@ -55,7 +54,7 @@ public class BookController {
      * @return {@link Book}
      * @throws EntityNotExistException {@link EntityNotExistException}
      */
-    @GetMapping("/find/{id}")
+    @GetMapping("/all/books/find/{id}")
     public ResponseEntity<Book> findById(@PathVariable int id) throws EntityNotExistException {
         return new ResponseEntity<>(bookService.findByIdIfExist(id), HttpStatus.OK);
     }
@@ -66,8 +65,10 @@ public class BookController {
      * @param pageable the pageable param to return
      * @return a page of book
      */
-    @GetMapping("/listAll")
+    @GetMapping("/all/books/listAll")
     public ResponseEntity<Page<Book>> listAllBook(@NotNull Pageable pageable) {
         return new ResponseEntity<>(bookService.findAll(pageable), HttpStatus.OK);
     }
+
+
 }
