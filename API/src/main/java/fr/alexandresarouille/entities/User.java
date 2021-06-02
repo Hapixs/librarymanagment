@@ -1,6 +1,7 @@
 package fr.alexandresarouille.entities;
 
-import lombok.AllArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,10 +13,17 @@ import javax.persistence.Id;
  * Entity representing a user stored in the database.
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class User {
+
+    public User(Role role, String email, String name, String firstName, String password) {
+        this.role = role;
+        this.email = email;
+        this.name = name;
+        this.firstName = firstName;
+        this.password = password;
+    }
 
     /**
      * Unique id of the user
@@ -40,8 +48,10 @@ public class User {
      * firstname of the user
      */
     private String firstName;
+
     /**
      * password of the user
      */
+    @JsonIgnore
     private String password;
 }

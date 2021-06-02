@@ -5,6 +5,8 @@ import fr.alexandresarouille.dto.UserDTO;
 import fr.alexandresarouille.entities.User;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
@@ -13,7 +15,7 @@ import java.util.Optional;
  * This service work for the user's feature
  * He generally work with {@link fr.alexandresarouille.dao.UserRepository}
  */
-public interface UserService /* extends UserDetailsService*/ {
+public interface UserService  extends UserDetailsService {
 
     /**
      * Get or not a user from the data base by his id
@@ -40,6 +42,8 @@ public interface UserService /* extends UserDetailsService*/ {
      */
     Optional<User> findByEmail(@NotNull String email);
 
+    User findByMailIfExist(@NotNull String email) throws UsernameNotFoundException;
+
     /**
      * Create an new unique user object in the data base
      *
@@ -48,4 +52,5 @@ public interface UserService /* extends UserDetailsService*/ {
      * @throws EntityExistException {@link EntityExistException}
      */
     User create(@NotNull UserDTO userDTO) throws EntityExistException;
+
 }

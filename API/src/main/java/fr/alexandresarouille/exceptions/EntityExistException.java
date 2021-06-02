@@ -1,14 +1,12 @@
 package fr.alexandresarouille.exceptions;
 
-
-import lombok.NoArgsConstructor;
-
 /**
  * Exception called if an entity already exist in the data base
  */
-@NoArgsConstructor
-public class EntityExistException extends Exception {
+public class EntityExistException extends CustomRestException {
     public EntityExistException(String message) {
-        super(message);
+        super(message, 462);
     }
+
+    public static final int errorCode = 462;
 }

@@ -1,6 +1,6 @@
 package fr.alexandresarouille.entities;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,16 +9,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Entity representing a loan stored in the database.
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Loan {
+
+    public Loan(User user, Book book, LocalDateTime dateStart, LocalDateTime dateEnd, LocalDateTime dateReturn) {
+        this.user = user;
+        this.book = book;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.dateReturn = dateReturn;
+    }
 
     /**
      * Unique id of the loan

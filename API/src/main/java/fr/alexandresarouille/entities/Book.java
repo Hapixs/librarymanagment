@@ -1,6 +1,6 @@
 package fr.alexandresarouille.entities;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,10 +13,16 @@ import javax.persistence.Id;
  * Entity representing a book stored in the database.
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Book {
+
+    public Book(String name, String author, Integer quantity) {
+        this.name = name;
+        this.author = author;
+        this.quantity = quantity;
+    }
+
     /**
      * Unique id of the book
      */

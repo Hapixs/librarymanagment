@@ -58,4 +58,7 @@ public interface BookService {
      * @return a page of books
      */
     Page<Book> findAll(@NotNull Pageable pageable);
+
+
+    Page<Book> findAllByFilter(@NotNull Pageable pageable, String author, String name, Boolean available);
 }
