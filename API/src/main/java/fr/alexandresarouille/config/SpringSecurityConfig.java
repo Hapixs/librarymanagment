@@ -4,15 +4,11 @@ import fr.alexandresarouille.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -49,12 +45,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/batch/**").hasAuthority("BATCH");
 
         http.authorizeRequests().anyRequest().authenticated();
-
-//        http.exceptionHandling()
-//                .authenticationEntryPoint((request, response, ex) -> {
-//                   response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
-//                });
-
+        
         http.formLogin().disable();
         http.httpBasic();
     }

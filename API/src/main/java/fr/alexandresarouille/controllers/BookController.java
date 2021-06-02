@@ -5,7 +5,6 @@ import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.services.BookService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

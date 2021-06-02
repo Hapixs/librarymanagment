@@ -9,7 +9,6 @@ import fr.alexandresarouille.exceptions.LoanAlreadyExtendedException;
 import fr.alexandresarouille.exceptions.SameBookLoanForUserException;
 import fr.alexandresarouille.services.LoanService;
 import fr.alexandresarouille.services.UserService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
