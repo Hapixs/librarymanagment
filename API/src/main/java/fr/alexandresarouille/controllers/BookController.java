@@ -5,6 +5,10 @@ import fr.alexandresarouille.entities.Book;
 import fr.alexandresarouille.exceptions.EntityExistException;
 import fr.alexandresarouille.exceptions.EntityNotExistException;
 import fr.alexandresarouille.services.BookService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +46,13 @@ public class BookController {
      * @return {@link Book}
      * @throws EntityExistException {@link EntityExistException}
      */
+    @ApiOperation(value = "Create a new book in the database", response = Book.class, tags = "createBook")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book created"),
+            @ApiResponse(code = 401, message = "Not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = EntityExistException.errorCode, message = "Entity already exist")
+    })
     @PostMapping("/admin/books")
     public ResponseEntity<Book> createBook(@Valid @RequestBody BookDTO bookDTO) throws EntityExistException {
         return new ResponseEntity<>(bookService.create(bookDTO), HttpStatus.CREATED);
@@ -54,9 +65,16 @@ public class BookController {
      * @return {@link Book}
      * @throws EntityNotExistException {@link EntityNotExistException}
      */
+    @ApiOperation(value = "Get a book from his id", response = Book.class, tags = "findBookById")
+    @ApiResponses(value = {
+            @ApiResponse(code = 302, message = "Found"),
+            @ApiResponse(code = 401, message = "Not authorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = EntityNotExistException.errorCode, message = "Not found")
+    })
     @GetMapping("/all/books/find/{id}")
-    public ResponseEntity<Book> findById(@PathVariable int id) throws EntityNotExistException {
-        return new ResponseEntity<>(bookService.findByIdIfExist(id), HttpStatus.OK);
+    public ResponseEntity<Book> findBookById(@PathVariable int id) throws EntityNotExistException {
+        return new ResponseEntity<>(bookService.findByIdIfExist(id), HttpStatus.FOUND);
     }
 
     /**
@@ -65,9 +83,15 @@ public class BookController {
      * @param pageable the pageable param to return
      * @return a page of book
      */
+    @ApiOperation(value = "Get the list of all books", response = Page.class, tags = "listAllBook")
+    @ApiResponses(value = {
+            @ApiResponse(code = 302, message = "FOUND"),
+            @ApiResponse(code = 401, message = "Not authorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+    })
     @GetMapping("/all/books/listAll")
     public ResponseEntity<Page<Book>> listAllBook(@NotNull Pageable pageable) {
-        return new ResponseEntity<>(bookService.findAll(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.findAll(pageable), HttpStatus.FOUND);
     }
 
 

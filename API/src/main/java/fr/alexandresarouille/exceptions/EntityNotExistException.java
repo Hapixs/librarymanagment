@@ -1,10 +1,10 @@
 package fr.alexandresarouille.exceptions;
 
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-public class EntityNotExistException extends Exception {
+public class EntityNotExistException extends CustomRestException {
     public EntityNotExistException(String message) {
-        super(message);
+        super(message, 463);
     }
+
+    public static final int errorCode = 463;
 }
