@@ -1,0 +1,13 @@
+fr\alexandresarouille\library\web\controllers\BookController.class
+fr\alexandresarouille\library\web\Application.class
+fr\alexandresarouille\library\web\services\UserServiceImpl.class
+fr\alexandresarouille\library\web\services\BookServiceImpl$1.class
+fr\alexandresarouille\library\web\ApplicationProperties.class
+fr\alexandresarouille\library\web\services\LoanService.class
+fr\alexandresarouille\library\web\services\BookService.class
+fr\alexandresarouille\library\web\services\LoanServiceImpl.class
+fr\alexandresarouille\library\web\services\BookServiceImpl.class
+fr\alexandresarouille\library\web\controllers\LoanController.class
+fr\alexandresarouille\library\web\services\WebUserService.class
+fr\alexandresarouille\library\web\services\LoanServiceImpl$1.class
+fr\alexandresarouille\library\web\controllers\UserController.class

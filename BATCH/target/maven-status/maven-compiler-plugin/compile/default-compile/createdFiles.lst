@@ -1,0 +1,8 @@
+fr\alexandresarouille\library\batch\services\LoanService.class
+fr\alexandresarouille\library\batch\Application.class
+fr\alexandresarouille\library\batch\services\MailServiceImpl.class
+fr\alexandresarouille\library\batch\entities\Mail.class
+fr\alexandresarouille\library\batch\services\MailService.class
+fr\alexandresarouille\library\batch\services\LoanServiceImpl$1.class
+fr\alexandresarouille\library\batch\config\ThymeLeafTemplateConfig.class
+fr\alexandresarouille\library\batch\services\LoanServiceImpl.class
