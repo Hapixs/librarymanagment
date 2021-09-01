@@ -4,33 +4,49 @@ import fr.alexandresarouille.library.api.entities.Book;
 import fr.alexandresarouille.library.web.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/books/")
+@RequestMapping("/books")
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
 
-    @GetMapping
-    public String getBookList(Model model, Authentication authentication) {
+    @RequestMapping
+    public String getBookList(Model model, @ModelAttribute(value = "bookFilter") Book bookFilter,
+                              @RequestParam(value = "error", required = false) String error,
+                              @RequestParam(value = "warn", required = false) String warn,
+                              @RequestParam(value = "success", required = false) String success,
+                              @RequestParam(value = "page", required = false) Integer page,
+                              @RequestParam(value = "items", required = false) Integer items ) {
 
+        model.addAttribute("error", error);
+        model.addAttribute("warn", warn);
+        model.addAttribute("success", success);
 
-        Pageable pageable = PageRequest.of(0, 10);
-        model.addAttribute("books", bookService.findAllBook(pageable));
+        PageRequest pageRequest = PageRequest.of(
+                Optional.ofNullable(page).orElse(0),
+                Optional.ofNullable(items).orElse(10)
+        );
 
-        return "";
+        model.addAttribute("page", pageRequest.getPageNumber());
+        model.addAttribute("items", pageRequest.getPageSize());
+
+        Book booksFilter = Objects.isNull(bookFilter) ? new Book() : bookFilter;
+
+        model.addAttribute("bookFilter", booksFilter);
+        model.addAttribute("books", bookService.findAllBook(pageRequest, booksFilter));
+
+        return "/Books/books";
     }
+
 
     @GetMapping("/{id}")
     public String getBookInformation(Model model, @PathVariable int id) {

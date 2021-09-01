@@ -1,11 +1,11 @@
 package fr.alexandresarouille.library.api.services;
 
 
-import fr.alexandresarouille.library.api.repositories.UserRepository;
+import fr.alexandresarouille.library.api.entities.User;
+import fr.alexandresarouille.library.api.entities.dto.UserDTO;
 import fr.alexandresarouille.library.api.exceptions.EntityExistException;
 import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
-import fr.alexandresarouille.library.api.entities.dto.UserDTO;
-import fr.alexandresarouille.library.api.entities.User;
+import fr.alexandresarouille.library.api.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 

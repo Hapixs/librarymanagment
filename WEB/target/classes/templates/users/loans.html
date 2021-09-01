@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!-- Created 01/09/2021 -->
+<head>
+    <meta charset="UTF-8">
+    <title>Prêts en cours</title>
+</head>
+<body>
+    <div>
+        <div th:each="loan : ${loans}" th:object="${loan}">
+            <p th:text="'Livre: ' + ${loan.getBook()}"> </p>
+            <p th:text="'Date de fin: ' + ${loan.getDateEnd().toString()}"> </p>
+            <p th:text="'Date de début: ' + ${loan.getDateStart()}"> </p>
+            <p th:text="'Date de retoure: ' + ${loan.getDateReturned()}"> </p>
+            <p th:text="'A rendre ?: ' + ${loan.isExceeded()}"> </p>
+            <p th:text="'Rallongable ? : ' + ${loan.isExtendable()}"> </p>
+            <div th:if="${loan.isExtendable()}">
+
+                <a th:href="@{/loans/extend(loanid=${loan.getUniqueId()})}">Rallonger le prèt de 4 semaines.</a>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

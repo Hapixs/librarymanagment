@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des livres</title>
+</head>
+<body>
+    <div>
+        <form th:action="@{/books}" th:method="POST" th:object="${bookFilter}">
+            <input type="text" th:field="*{author}"/>
+            <input type="text" th:field="*{name}"/>
+            <button type="submit">Filtrer</button>
+        </form>
+    </div>
+
+    <div th:replace="fragments/notifications :: messages (${error}, ${success}, ${warn})"></div>
+  <div th:each="book : ${books}" th:object="${book}">
+      <h2 th:text="'Ouvrage: '+*{name}"></h2>
+      <p th:text="'Auteur: '+*{author}"></p>
+      <p th:text="'Quantité: '+*{quantity}"></p>
+      <a th:href="@{/loans/loan(bookid = *{uniqueId})}">Faire un prèt</a >
+      <hr />
+  </div>
+</body>
+</html>

@@ -1,16 +1,21 @@
 package fr.alexandresarouille.library.web.services;
 
-import fr.alexandresarouille.library.api.entities.dto.UserDTO;
 import fr.alexandresarouille.library.api.entities.User;
+import fr.alexandresarouille.library.api.entities.dto.UserDTO;
 import fr.alexandresarouille.library.api.exceptions.EntityExistException;
+import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
 import fr.alexandresarouille.library.web.ApplicationProperties;
+import fr.alexandresarouille.library.web.entities.UserCredential;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.security.auth.login.CredentialException;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 @Service
@@ -22,21 +27,44 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RestTemplate restTemplate;
-
     @Override
-    public User createUser(UserDTO userDTO) throws EntityExistException  {
+    public User createUser(UserDTO userDTO) throws EntityExistException {
         StringBuilder url = new StringBuilder(applicationProperties.getRestHostAddress());
-        ResponseEntity<Object> response = restTemplate.postForEntity(url.append("/all/users").toString(), userDTO, Object.class);
+        ResponseEntity<Object> response = restTemplate.postForEntity(url.append("/api/all/users").toString(), userDTO, Object.class);
 
-        if (response.getStatusCode().isError() && response.getBody() instanceof Exception)
+        if (response.getStatusCode().isError()
+                && response.getBody() instanceof Exception)
             throw new EntityExistException(((Exception) response.getBody()).getMessage());
 
         return ((User) response.getBody());
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        StringBuilder url = new StringBuilder(applicationProperties.getRestHostAddress());
-        return restTemplate.getForEntity(url.append(String.format("/api/all/users/%s", s)).toString(), UserDetails.class).getBody();
+    public HttpSession updateHttpSession(HttpSession httpSession, UserCredential userCredential) throws Throwable {
+
+        User user = findByUsername(userCredential.getUsername(), userCredential.getPassword());
+
+        httpSession.setAttribute("username", userCredential.getUsername());
+        httpSession.setAttribute("password", userCredential.getPassword());
+        httpSession.setAttribute("logged", true);
+        httpSession.setAttribute("role", user.getRole());
+        httpSession.setAttribute("userid", user.getUniqueId());
+        return httpSession;
     }
+
+    @Override
+    public User findByUsername(String username, String password) {
+        StringBuilder url = new StringBuilder(applicationProperties.getRestHostAddress());
+
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
+
+        ResponseEntity<User> response = restTemplate.getForEntity(url.append(String.format("/api/users/users/%s", username)).toString(), User.class);
+
+        if(response.getStatusCode().isError())
+            throw new UsernameNotFoundException("Informations de connexion incorectes.");
+
+
+        return response.getBody();
+    }
+
 }

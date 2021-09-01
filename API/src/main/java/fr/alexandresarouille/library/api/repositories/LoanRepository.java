@@ -38,7 +38,7 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
      * @param localDateTime the local date time
      * @return a collection of loans
      */
-    @Query("SELECT loan FROM Loan loan WHERE loan.dateEnd <= :localdate AND loan.dateReturn IS NULL")
+    @Query("SELECT loan FROM Loan loan WHERE loan.dateEnd <= :localdate AND loan.dateReturned IS NULL")
     Collection<Loan> findAllExceeded(@Param("localdate") LocalDateTime localDateTime);
 
 }

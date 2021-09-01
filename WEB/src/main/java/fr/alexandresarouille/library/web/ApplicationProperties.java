@@ -17,6 +17,6 @@ public class ApplicationProperties {
     }
 
     public int getRestHostPort() {
-        return Optional.ofNullable(environment.getProperty("properties.rest.port", Integer.class)).orElse(8080);
+        return Optional.ofNullable(environment.getProperty("properties.rest.port", Integer.class)).orElse(8081);
     }
 }

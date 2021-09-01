@@ -6,8 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.Null;
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -40,10 +43,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
      */
     @Query("SELECT bk FROM Book bk WHERE " +
             "(:author IS NULL OR bk.author=:author)" +
-            "AND (:name IS NULL OR bk.name=:name)" +
-            "AND (:available IS NULL OR bk.quantity>1)")
-    Page<Book> findAllByFilters(Pageable pageable,
-                                @Param("name") String name,
-                                @Param("author") String author,
-                                @Param("available") Boolean available);
+            "AND (:name IS NULL OR bk.name=:name)")
+    Page<Book> findAllByFilters(Pageable pageable, @Param("name") @Nullable String name,
+                                      @Param("author") @Nullable String author);
 }

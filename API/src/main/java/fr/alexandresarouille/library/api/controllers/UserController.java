@@ -1,7 +1,7 @@
 package fr.alexandresarouille.library.api.controllers;
 
-import fr.alexandresarouille.library.api.entities.dto.UserDTO;
 import fr.alexandresarouille.library.api.entities.User;
+import fr.alexandresarouille.library.api.entities.dto.UserDTO;
 import fr.alexandresarouille.library.api.exceptions.EntityExistException;
 import fr.alexandresarouille.library.api.services.UserService;
 import io.swagger.annotations.Api;
@@ -23,6 +23,7 @@ import javax.validation.Valid;
  *
  * Working with the UserService {@link UserService}
  */
+
 @RestController
 @RequestMapping("/api")
 @Api(value = "User's controller")
@@ -45,26 +46,29 @@ public class UserController {
      * @return {@link User}
      * @throws EntityExistException {@link EntityExistException}
      */
-    @ApiOperation(value = "Create a new user", response = User.class, tags = "createUser")
+    @ApiOperation(value = "Create a new user", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "User created"),
-            @ApiResponse(code = 401, message = "Not authorized"),
-            @ApiResponse(code = 402, message = "Forbidden"),
             @ApiResponse(code = 462, message = "User already exist")
     })
     @PostMapping("/all/users")
     public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws EntityExistException {
         return new ResponseEntity<>(userService.create(userDTO), HttpStatus.CREATED);
     }
-    @ApiOperation(value = "Get details about a specified user", response = UserDetails.class, tags = "getDetailsAboutUser")
+    @ApiOperation(value = "Get details about a specified user", response = Boolean.class)
     @ApiResponses(value = {
             @ApiResponse(code = 302, message = "User found"),
             @ApiResponse(code = 401, message = "Not authorized"),
             @ApiResponse(code = 402, message = "Forbidden"),
             @ApiResponse(code = 460, message = "Username doesn't exist")
     })
-    @GetMapping("/all/users/{username}")
-    public ResponseEntity<UserDetails> login(@Valid @PathVariable String username) throws UsernameNotFoundException {
-        return new ResponseEntity<>(userService.loadUserByUsername(username), HttpStatus.FOUND);
+    @GetMapping("/users/users/validate")
+    public ResponseEntity<Boolean> validateCredentials() {
+        return ResponseEntity.ok(true);
+    }
+
+    @GetMapping("/users/users/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable("username") String username) {
+        return ResponseEntity.ok(userService.findByMailIfExist(username));
     }
 }

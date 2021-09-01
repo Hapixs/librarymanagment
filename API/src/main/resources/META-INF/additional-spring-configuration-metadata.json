@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "security.app.jwt.secret",
+      "type": "java.lang.String",
+      "description": "Secret key used to encode tokens."
+    },
+    {
+      "name": "security.app.jwt.ExpirationMs",
+      "type": "java.lang.String",
+      "description": "Expiration of the authentication token in ms."
+    }
+  ]
+}

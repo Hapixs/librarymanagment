@@ -1,15 +1,17 @@
 package fr.alexandresarouille.library.api.services;
 
 
-import fr.alexandresarouille.library.api.repositories.BookRepository;
+import fr.alexandresarouille.library.api.entities.Book;
+import fr.alexandresarouille.library.api.entities.dto.BookDTO;
 import fr.alexandresarouille.library.api.exceptions.EntityExistException;
 import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
-import fr.alexandresarouille.library.api.entities.dto.BookDTO;
-import fr.alexandresarouille.library.api.entities.Book;
+import fr.alexandresarouille.library.api.repositories.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -61,5 +63,5 @@ public interface BookService {
     Page<Book> findAll(@NotNull Pageable pageable);
 
 
-    Page<Book> findAllByFilter(@NotNull Pageable pageable, String author, String name, Boolean available);
+    Page<Book> findAllByFilter(Pageable pageable, Book bookFilter);
 }

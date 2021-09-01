@@ -1,14 +1,14 @@
 package fr.alexandresarouille.library.api.services;
 
 
-import fr.alexandresarouille.library.api.repositories.LoanRepository;
-import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
-import fr.alexandresarouille.library.api.entities.dto.LoanDTO;
 import fr.alexandresarouille.library.api.entities.Loan;
 import fr.alexandresarouille.library.api.entities.User;
+import fr.alexandresarouille.library.api.entities.dto.LoanDTO;
 import fr.alexandresarouille.library.api.exceptions.BookNoQuantityException;
+import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
 import fr.alexandresarouille.library.api.exceptions.LoanAlreadyExtendedException;
 import fr.alexandresarouille.library.api.exceptions.SameBookLoanForUserException;
+import fr.alexandresarouille.library.api.repositories.LoanRepository;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;

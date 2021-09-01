@@ -16,7 +16,7 @@ public class SpringFoxConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("fr.alexandresarouille.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("fr.alexandresarouille.library.api.controllers"))
                 .paths(PathSelectors.ant("/api/**"))
                 .build();
     }

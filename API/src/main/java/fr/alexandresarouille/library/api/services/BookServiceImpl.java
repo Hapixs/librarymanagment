@@ -1,10 +1,11 @@
 package fr.alexandresarouille.library.api.services;
 
+import com.google.common.base.Strings;
+import fr.alexandresarouille.library.api.entities.Book;
+import fr.alexandresarouille.library.api.entities.dto.BookDTO;
 import fr.alexandresarouille.library.api.exceptions.EntityExistException;
 import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
 import fr.alexandresarouille.library.api.repositories.BookRepository;
-import fr.alexandresarouille.library.api.entities.dto.BookDTO;
-import fr.alexandresarouille.library.api.entities.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -75,11 +76,11 @@ public class BookServiceImpl implements BookService {
     }
 
     /**
-     * {@link BookService#findAllByFilter(Pageable, String, String, Boolean)}
+     * {@link BookService#findAllByFilter(Pageable, Book)}
      */
     @Override
-    public Page<Book> findAllByFilter(Pageable pageable, String author, String name, Boolean available) {
-        return repository.findAllByFilters(pageable, author, name, available);
+    public Page<Book> findAllByFilter(Pageable pageable, Book bookFilters) {
+        return repository.findAllByFilters(pageable, Strings.emptyToNull(bookFilters.getAuthor()), Strings.emptyToNull(bookFilters.getName()));
     }
 
     /**

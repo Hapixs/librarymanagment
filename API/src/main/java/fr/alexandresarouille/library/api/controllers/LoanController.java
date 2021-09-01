@@ -1,8 +1,8 @@
 package fr.alexandresarouille.library.api.controllers;
 
-import fr.alexandresarouille.library.api.entities.dto.LoanDTO;
 import fr.alexandresarouille.library.api.entities.Book;
 import fr.alexandresarouille.library.api.entities.Loan;
+import fr.alexandresarouille.library.api.entities.dto.LoanDTO;
 import fr.alexandresarouille.library.api.exceptions.BookNoQuantityException;
 import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
 import fr.alexandresarouille.library.api.exceptions.LoanAlreadyExtendedException;
@@ -55,14 +55,14 @@ public class LoanController {
      * @throws SameBookLoanForUserException {@link SameBookLoanForUserException}
      * @throws BookNoQuantityException {@link BookNoQuantityException}
      */
-    @ApiOperation(value = "Create a loan in the database", response = Book.class, tags = "createLoan")
+    @ApiOperation(value = "Create a loan in the database", response = Book.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Loan created"),
             @ApiResponse(code = 401, message = "Not authorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = EntityNotExistException.errorCode, message = "Not found"),
-            @ApiResponse(code = SameBookLoanForUserException.errorCode, message = "Same book loan for user"),
-            @ApiResponse(code = BookNoQuantityException.errorCode, message = "No enough quantity of this book")
+            @ApiResponse(code = 463, message = "Not found"),
+            @ApiResponse(code = 465, message = "Same book loan for user"),
+            @ApiResponse(code = 461, message = "No enough quantity of this book")
     })
     @PostMapping("/users/loans/")
     public ResponseEntity<Loan> createLoan(@Valid @RequestBody LoanDTO loanDTO) throws EntityNotExistException, SameBookLoanForUserException, BookNoQuantityException {
@@ -77,13 +77,13 @@ public class LoanController {
      * @throws EntityNotExistException {@link EntityNotExistException}
      * @throws LoanAlreadyExtendedException {@link LoanAlreadyExtendedException}
      */
-    @ApiOperation(value = "Extend a loan duration by 4 weeks", response = Loan.class, tags = "extendLoan")
+    @ApiOperation(value = "Extend a loan duration by 4 weeks", response = Loan.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Loan extended"),
             @ApiResponse(code = 401, message = "Not authorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = EntityNotExistException.errorCode, message = "Loan not found"),
-            @ApiResponse(code = LoanAlreadyExtendedException.errorCode, message = "Loan already extended")
+            @ApiResponse(code = 463, message = "Loan not found"),
+            @ApiResponse(code = 464, message = "Loan already extended")
     })
     @PutMapping("/users/loans/extend/{id}")
     public ResponseEntity<Loan> extendLoan(@NotNull @PathVariable int id) throws EntityNotExistException, LoanAlreadyExtendedException {
@@ -95,7 +95,7 @@ public class LoanController {
      *
      * @return a collection of loans
      */
-    @ApiOperation(value = "Find all exceeded and not returned loans in the database", response = Collection.class, tags = "getAllExceededLoans")
+    @ApiOperation(value = "Find all exceeded and not returned loans in the database", response = Collection.class)
     @ApiResponses(value = {
             @ApiResponse(code = 302, message = "Found"),
             @ApiResponse(code = 401, message = "Not authorized"),
@@ -113,12 +113,12 @@ public class LoanController {
      * @return a collection of loans
      * @throws EntityNotExistException {@link EntityNotExistException}
      */
-    @ApiOperation(value = "Find all loan from a user", response = Collection.class, tags = "findAllLoanFromUser")
+    @ApiOperation(value = "Find all loan from a user", response = Collection.class)
     @ApiResponses(value = {
             @ApiResponse(code = 302, message = "Found"),
             @ApiResponse(code = 401, message = "Not authorized"),
             @ApiResponse(code = 402, message = "Forbidden"),
-            @ApiResponse(code = EntityNotExistException.errorCode, message = "User doesn't exist")
+            @ApiResponse(code = 463, message = "User doesn't exist")
     })
     @GetMapping("/users/loans/{id}")
     public ResponseEntity<Collection<Loan>> findAllFromUser(@NotNull @PathVariable int id) throws EntityNotExistException {

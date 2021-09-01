@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!-- Created 16/06/2021 -->
+<head>
+</head>
+<body>
+    <div th:fragment="messages (error, success, warn)">
+
+      <p th:unless="${error == null || error == ''}" th:text="'error: '+${error}"></p>
+      <p th:unless="${success == null || success == ''}" th:text="'success: '+${success}"></p>
+      <p th:unless="${warn == null || warn == ''}" th:text="'warn: '+${warn}"></p>
+    </div>
+</body>
+</html>

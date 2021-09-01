@@ -8,6 +8,4 @@ public class SameBookLoanForUserException extends CustomRestException {
     public SameBookLoanForUserException() {
         super("Vous avez déjà un prêt en cours pour ce livre.", 465);
     }
-
-    public static final int errorCode = 465;
 }
