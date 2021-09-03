@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.alexandresarouille.library.batch</groupId>
+
     <artifactId>BATCH</artifactId>
 
     <properties>
@@ -26,6 +27,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+
             <exclusions>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
@@ -34,5 +36,6 @@
             </exclusions>
         </dependency>
     </dependencies>
+
 
 </project>
