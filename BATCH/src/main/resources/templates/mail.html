@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Prêt de livre fini</title>
+</head>
+<body>
+    <p th:text="'Bonjour, '+${username}"></p>
+    <p th:text="'Il semblerais que un ou plusieurs de tes prêts de livre soit arrivé à échéance(s)'"></p>
+    <p th:text="'Voicis quelles sont les livre à rendre le plus vite possible: '"></p>
+    <ul th:each="loan : ${loans}" th:object="${loan}">
+        <li th:text="*{getBook().getName()}"></li>
+    </ul>
+    <p>Merci de rendre se(s) livre(s) dès que possibles à la librairie.</p>
+=======
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,5 +22,6 @@
 </head>
 <body>
 
+>>>>>>> 0f8cf88fffa25aed7c9a4310b95ac10a8ec90ac8
 </body>
 </html>

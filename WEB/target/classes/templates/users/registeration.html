@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!-- Created 01/09/2021 -->
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+</head>
+<body>
+<div>
+    <form action="#" th:action="@{/users/register}" th:object="${}" method="post">
+        <input th:field="*{}">
+    </form>
+</div>
+</body>
+</html>
