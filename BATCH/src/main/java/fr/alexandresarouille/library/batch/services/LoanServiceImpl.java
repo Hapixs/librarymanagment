@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,7 +28,8 @@ public class LoanServiceImpl implements LoanService {
     public Collection<Loan> findAllExceededLoan() {
         StringBuilder host = new StringBuilder(Objects.requireNonNull(environment.getProperty("restHosturl"), "L'url de l'host rest n'est pas valide!"));
         ParameterizedTypeReference<Collection<Loan>> parameterizedTypeReference = new ParameterizedTypeReference<Collection<Loan>>() { };
-        return restTemplate.exchange(host.append("/loans").toString(), HttpMethod.GET, null, parameterizedTypeReference).getBody();
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor("test1@gmail.com", "test1"));
+        return restTemplate.exchange(host.append("/api/batch/loans/exceeded").toString(), HttpMethod.GET, null, parameterizedTypeReference).getBody();
     }
 
     @Bean
