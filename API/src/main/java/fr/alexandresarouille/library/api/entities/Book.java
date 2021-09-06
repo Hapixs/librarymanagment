@@ -83,7 +83,7 @@ public class Book {
         if (o == this) return true;
         if (!(o instanceof Book)) return false;
         final Book other = (Book) o;
-        if (!other.canEqual((Object) this)) return false;
+        if (!other.canEqual(this)) return false;
         if (this.getUniqueId() != other.getUniqueId()) return false;
         final Object this$name = this.getName();
         final Object other$name = other.getName();
@@ -93,8 +93,7 @@ public class Book {
         if (this$author == null ? other$author != null : !this$author.equals(other$author)) return false;
         final Object this$quantity = this.getQuantity();
         final Object other$quantity = other.getQuantity();
-        if (this$quantity == null ? other$quantity != null : !this$quantity.equals(other$quantity)) return false;
-        return true;
+        return this$quantity == null ? other$quantity == null : this$quantity.equals(other$quantity);
     }
 
     protected boolean canEqual(final Object other) {
