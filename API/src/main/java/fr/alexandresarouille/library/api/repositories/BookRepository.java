@@ -38,12 +38,12 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
      * @param pageable The page
      * @param name the name of wanted book
      * @param author the author of wanted book
-     * @param available specified to return only available books
      * @return a page of book containing those filters
      */
     @Query("SELECT bk FROM Book bk WHERE " +
-            "(:author IS NULL OR bk.author=:author)" +
-            "AND (:name IS NULL OR bk.name=:name)")
-    Page<Book> findAllByFilters(Pageable pageable, @Param("name") @Nullable String name,
-                                      @Param("author") @Nullable String author);
+            "(:author IS NULL OR bk.author LIKE %:author%)" +
+            "AND (:name IS NULL OR bk.name LIKE %:name%)")
+    Page<Book> findAllByFilters(Pageable pageable,
+                                @Param("name") @Nullable String name,
+                                @Param("author") @Nullable String author);
 }

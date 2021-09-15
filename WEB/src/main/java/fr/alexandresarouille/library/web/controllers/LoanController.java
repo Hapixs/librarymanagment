@@ -28,9 +28,17 @@ public class LoanController {
     private UserService userService;
 
     @GetMapping("loan")
-    public String createLoan(Model model, @RequestParam("bookid") int bookId,
+    public String createLoan(Model model,
+                             @RequestParam("bookid") int bookId,
+                             @RequestParam(value = "error", required = false) String error,
+                             @RequestParam(value = "warn", required = false) String warn,
+                             @RequestParam(value = "success", required = false) String success,
                              HttpSession httpSession,
                              RedirectAttributes redirectAttributes) throws EntityNotExistException {
+
+        model.addAttribute("error", error);
+        model.addAttribute("success", success);
+        model.addAttribute("warn", warn);
 
         if(Objects.isNull(httpSession.getAttribute("logged"))) {
             redirectAttributes.addAttribute("error", "Vous devez être connecter pour faire ceci.");
@@ -47,7 +55,12 @@ public class LoanController {
     }
 
     @GetMapping
-    public String getUserLoans(Model model, HttpSession httpSession,RedirectAttributes redirectAttributes) throws EntityNotExistException {
+    public String getUserLoans(Model model,
+                               @RequestParam(value = "error", required = false) String error,
+                               @RequestParam(value = "warn", required = false) String warn,
+                               @RequestParam(value = "success", required = false) String success,
+                               HttpSession httpSession,RedirectAttributes redirectAttributes) throws EntityNotExistException {
+
         if(Objects.isNull(httpSession.getAttribute("logged"))) {
             redirectAttributes.addAttribute("error", "Vous devez être connecter pour faire ceci.");
             return "redirect:/";
@@ -58,12 +71,18 @@ public class LoanController {
         Collection<Loan> loans = loanService.findAllByUser(user, httpSession);
 
         model.addAttribute("loans", loans);
-
+        model.addAttribute("error", error);
+        model.addAttribute("success", success);
+        model.addAttribute("warn", warn);
         return "users/loans";
     }
 
     @GetMapping("/extend")
-    public String extendLoanForUser(@RequestParam("loanid") Integer loanId,  Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+    public String extendLoanForUser(@RequestParam("loanid") Integer loanId,
+                                    @RequestParam(value = "error", required = false) String error,
+                                    @RequestParam(value = "warn", required = false) String warn,
+                                    @RequestParam(value = "success", required = false) String success,
+                                    Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         if(Objects.isNull(httpSession.getAttribute("logged"))) {
             redirectAttributes.addAttribute("error", "Vous devez être connecter pour faire ceci.");
             return "redirect:/";
@@ -71,7 +90,9 @@ public class LoanController {
 
         User user = userService.findByUsername(httpSession.getAttribute("username").toString(), httpSession.getAttribute("password").toString());
         loanService.extendLoan(loanId);
-
+        model.addAttribute("error", error);
+        model.addAttribute("success", success);
+        model.addAttribute("warn", warn);
         return "redirect:/loans";
     }
 

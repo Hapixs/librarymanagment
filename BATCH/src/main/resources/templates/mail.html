@@ -9,9 +9,9 @@
 </head>
 
 <body>
-<p th:text="'Bonjour, '+${username}"></p>
-<p th:text="'Il semblerais que un ou plusieurs de tes prêts de livre soit arrivé à échéance(s)'"></p>
-<p th:text="'Voicis quelles sont les livre à rendre le plus vite possible: '"></p>
+<p th:text="'Bonjour, '+${name}"></p>
+<p th:text="'Il semblerait qu\'un ou plusieurs de tes prêts de livres soit arrivé à échéance(s)'"></p>
+<p th:text="'Voici quels sont les livres à rendre le plus vite possible: '"></p>
 <ul th:each="loan : ${loans}" th:object="${loan}">
     <li th:text="*{getBook().getName()}"></li>
 </ul>

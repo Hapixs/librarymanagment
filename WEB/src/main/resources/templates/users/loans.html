@@ -4,9 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Prêts en cours</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </head>
 <body>
     <div>
+        <div th:replace="fragments/navigator :: nav"></div>
+        <div th:replace="fragments/notifications :: messages (${error}, ${success}, ${warn})"></div>
         <div th:each="loan : ${loans}" th:object="${loan}">
             <p th:text="'Livre: ' + ${loan.getBook()}"> </p>
             <p th:text="'Date de fin: ' + ${loan.getDateEnd().toString()}"> </p>
@@ -19,6 +25,7 @@
                 <a th:href="@{/loans/extend(loanid=${loan.getUniqueId()})}">Rallonger le prèt de 4 semaines.</a>
 
             </div>
+            <hr />
         </div>
     </div>
 </body>

@@ -8,7 +8,7 @@ import fr.alexandresarouille.library.web.entities.UserCredential;
 import javax.servlet.http.HttpSession;
 
 public interface UserService /* extends UserDetailsService */ {
-    User createUser(UserDTO userDTO) throws EntityExistException;
+    void createUser(UserDTO userDTO) throws EntityExistException;
     HttpSession updateHttpSession(HttpSession httpSession, UserCredential userCredential) throws Throwable;
 
     User findByUsername(String username, String password);

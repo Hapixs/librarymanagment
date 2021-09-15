@@ -12,6 +12,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 
@@ -42,10 +43,11 @@ public class MailServiceImpl implements MailService {
         springTemplateEngine.setTemplateResolver(springResourceTemplateResolver);
         String html = springTemplateEngine.process("mail", context);
 
+
         helper.setTo(mail.getUser().getEmail());
         helper.setText(html, true);
-        helper.setSubject(mail.getSubject());
         helper.setFrom(mail.getFrom());
+        helper.setSubject(mail.getSubject());
 
         javaMailSender.setHost(mail.getHost());
         javaMailSender.setPort(mail.getPort());
