@@ -80,7 +80,7 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Page<Book> findAllByFilter(Pageable pageable, Book bookFilters) {
-        return repository.findAllByFilters(pageable, Strings.emptyToNull(bookFilters.getAuthor()), Strings.emptyToNull(bookFilters.getName()));
+        return repository.findAllByFilters(pageable, Strings.emptyToNull(bookFilters.getName()), Strings.emptyToNull(bookFilters.getAuthor()));
     }
 
     /**

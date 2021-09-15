@@ -46,14 +46,4 @@ public class BookController {
 
         return "/Books/books";
     }
-
-
-    @GetMapping("/{id}")
-    public String getBookInformation(Model model, @PathVariable int id) {
-
-        Book book = bookService.findById(id);
-        model.addAttribute("book", book);
-
-        return "";
-    }
 }

@@ -4,11 +4,11 @@
 <head>
 </head>
 <body>
-    <div th:fragment="messages (error, success, warn)">
+    <div class=" row align-items-center" th:fragment="messages (error, success, warn)">
 
-      <p th:unless="${error == null || error == ''}" th:text="'error: '+${error}"></p>
-      <p th:unless="${success == null || success == ''}" th:text="'success: '+${success}"></p>
-      <p th:unless="${warn == null || warn == ''}" th:text="'warn: '+${warn}"></p>
+      <p class="alert alert-primary" role="alert" th:if="${error} != null" th:text="'error: '+${error}"></p>
+      <p class="alert alert-success" role="alert" th:if="${success} != null" th:text="'success: '+${success}"></p>
+      <p class="alert alert-warning" role="alert" th:if="${warn} != null" th:text="'warn: '+${warn}"></p>
     </div>
 </body>
 </html>

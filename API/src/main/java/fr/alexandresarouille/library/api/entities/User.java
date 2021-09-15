@@ -107,7 +107,7 @@ public class User {
         if (o == this) return true;
         if (!(o instanceof User)) return false;
         final User other = (User) o;
-        if (!other.canEqual((Object) this)) return false;
+        if (!other.canEqual(this)) return false;
         if (this.getUniqueId() != other.getUniqueId()) return false;
         final Object this$role = this.getRole();
         final Object other$role = other.getRole();
@@ -123,8 +123,7 @@ public class User {
         if (this$firstName == null ? other$firstName != null : !this$firstName.equals(other$firstName)) return false;
         final Object this$password = this.getPassword();
         final Object other$password = other.getPassword();
-        if (this$password == null ? other$password != null : !this$password.equals(other$password)) return false;
-        return true;
+        return this$password == null ? other$password == null : this$password.equals(other$password);
     }
 
     protected boolean canEqual(final Object other) {

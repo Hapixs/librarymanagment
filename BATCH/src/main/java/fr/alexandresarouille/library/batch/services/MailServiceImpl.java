@@ -3,13 +3,16 @@ package fr.alexandresarouille.library.batch.services;
 import fr.alexandresarouille.library.batch.entities.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 
@@ -19,10 +22,13 @@ public class MailServiceImpl implements MailService {
 
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private JavaMailSenderImpl javaMailSender;
 
     @Autowired
     private SpringTemplateEngine springTemplateEngine;
+
+    @Autowired
+    private SpringResourceTemplateResolver springResourceTemplateResolver;
 
     @Override
     public void sendEmail(Mail mail) throws MessagingException {
@@ -34,12 +40,19 @@ public class MailServiceImpl implements MailService {
         context.setVariable("username", mail.getUser().getName());
         context.setVariable("loans", mail.getLoans());
 
+        springTemplateEngine.setTemplateResolver(springResourceTemplateResolver);
         String html = springTemplateEngine.process("mail", context);
+
 
         helper.setTo(mail.getUser().getEmail());
         helper.setText(html, true);
-        helper.setSubject(mail.getSubject());
         helper.setFrom(mail.getFrom());
+        helper.setSubject(mail.getSubject());
+
+        javaMailSender.setHost(mail.getHost());
+        javaMailSender.setPort(mail.getPort());
+        javaMailSender.setUsername(mail.getUsername());
+        javaMailSender.setPassword(mail.getPassword());
 
         javaMailSender.send(mimeMessage);
     }

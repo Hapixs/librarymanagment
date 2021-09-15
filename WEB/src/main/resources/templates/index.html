@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</head>
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
 <body>
-<div th:if="*{#httpSession!=null}">
-    <p th:text="'Your username: '+ *{#httpSession.getAttribute('username')} ?: 'N/A'"></p>
-    <p th:text="'Your password: '+ *{#httpSession.getAttribute('password')} ?: 'N/A'"></p>
-</div>
+<div th:replace="fragments/navigator :: nav"></div>
+<div th:replace="fragments/notifications :: messages (${error}, ${success}, ${warn})"></div>
+    <div>
+        <h1> Bienvenue sur le site de la librairie !</h1>
+        <p> Vous pouvez ici afficher les livres disponible, gerer vos pret en en faire de nouveau </p>
+    </div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package fr.alexandresarouille.library.web.controllers;
 
+import fr.alexandresarouille.library.api.entities.User;
 import fr.alexandresarouille.library.api.entities.dto.UserDTO;
 import fr.alexandresarouille.library.web.entities.UserCredential;
 import fr.alexandresarouille.library.web.services.UserService;
@@ -25,31 +26,35 @@ public class UserController {
      * @return the register page
      */
     @GetMapping("/register")
-    public String getRegisterPage(Model model, RedirectAttributes redirectAttributes) {
-        model.addAttribute("error", redirectAttributes.getAttribute("error"));
-        model.addAttribute("success", redirectAttributes.getAttribute("success"));
+    public String getRegisterPage(Model model,
+                                  @RequestParam(value = "error", required = false) String error,
+                                  @RequestParam(value = "warn", required = false) String warn,
+                                  @RequestParam(value = "success", required = false) String success,
+                                  RedirectAttributes redirectAttributes) {
+
+        model.addAttribute("error", error);
+        model.addAttribute("success", success);
+        model.addAttribute("warn", warn);
 
 
         model.addAttribute("user", new UserDTO());
-        return "registeration";
+        return "users/registeration";
     }
 
     /**
      * Create the user in the database
      *
-     * @param model the model
      * @param user  the user's information
      * @return The Login page / register page
      */
     @PostMapping("/register")
-    public String postRegisterUser(Model model,
-                                   RedirectAttributes redirectAttributes,
+    public String postRegisterUser(RedirectAttributes redirectAttributes,
                                    HttpSession httpSession,
-                                   @ModelAttribute("user") @Valid UserDTO user) {
+                                   @ModelAttribute("user") UserDTO user) {
 
         try {
-            userService.createUser(user);
-            redirectAttributes.addAttribute("success", "Votre compte à bien été enregistrer. Vous pouvez vous connecter maintenant en cliquant ici");
+             userService.createUser(user);
+            redirectAttributes.addAttribute("success", "Votre compte à bien été enregistrer. Vous avez été automatiquement connecté");
             httpSession = userService.updateHttpSession(httpSession, new UserCredential(user.getEmail(), user.getPassword()));
             return "redirect:/";
         } catch (Throwable e) {
@@ -57,7 +62,7 @@ public class UserController {
             redirectAttributes.addAttribute("user", user);
         }
 
-        return "redirect:/users/register";
+        return "redirect:/users/registration";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -73,6 +78,7 @@ public class UserController {
             redirectAttributes.addAttribute("error", "Vous êtes déjà connecter!");
             return "redirect:/";
         }
+
         model.addAttribute("error", error);
         model.addAttribute("warn", warn);
         model.addAttribute("success", success);

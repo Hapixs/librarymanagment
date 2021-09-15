@@ -7,6 +7,7 @@ import fr.alexandresarouille.library.api.exceptions.EntityNotExistException;
 import fr.alexandresarouille.library.web.ApplicationProperties;
 import fr.alexandresarouille.library.web.entities.UserCredential;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
@@ -14,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.security.auth.login.CredentialException;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -27,16 +27,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RestTemplate restTemplate;
+
     @Override
-    public User createUser(UserDTO userDTO) throws EntityExistException {
-        StringBuilder url = new StringBuilder(applicationProperties.getRestHostAddress());
-        ResponseEntity<Object> response = restTemplate.postForEntity(url.append("/api/all/users").toString(), userDTO, Object.class);
-
-        if (response.getStatusCode().isError()
-                && response.getBody() instanceof Exception)
-            throw new EntityExistException(((Exception) response.getBody()).getMessage());
-
-        return ((User) response.getBody());
+    public void createUser(UserDTO userDTO) throws EntityExistException {
+        try{
+            StringBuilder url = new StringBuilder(applicationProperties.getRestHostAddress());
+            ResponseEntity<Object> response = restTemplate.postForEntity(url.append("/api/all/users").toString(), userDTO, Object.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

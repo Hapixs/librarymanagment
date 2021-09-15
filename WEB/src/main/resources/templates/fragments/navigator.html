@@ -1,0 +1,30 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</head>
+
+<div th:fragment="nav">
+
+  <ul class="nav">
+      <li th:if="${#httpSession == null || #httpSession.getAttribute('logged') == null}" class="nav-item">
+        <a class="nav-link active" th:href="@{/users/login}">Login</a>
+      </li>
+      <li th:if="${#httpSession == null || #httpSession.getAttribute('logged') == null}" class="nav-item">
+        <a class="nav-link active" th:href="@{/users/register}">Inscription</a>
+      </li>
+    <li class="nav-item">
+      <a class="nav-link active" th:href="@{/books}">Livres</a>
+    </li>
+    <li th:unless="${#httpSession == null || #httpSession.getAttribute('logged') == null}" class="nav-item">
+      <a class="nav-link active" th:href="@{/loans}">Mes prets</a>
+    </li>
+  </ul>
+</div>
+
+</html>

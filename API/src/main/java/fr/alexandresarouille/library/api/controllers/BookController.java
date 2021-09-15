@@ -95,7 +95,9 @@ public class BookController {
             @ApiResponse(code = 403, message = "Forbidden"),
     })
     @PostMapping("/all/books")
-    public ResponseEntity<List<Book>> listAllBook(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "items", required = false) Integer items, @RequestBody(required = false) Book bookFilter) {
+    public ResponseEntity<List<Book>> listAllBook(@RequestParam(value = "page", required = false) Integer page,
+                                                  @RequestParam(value = "items", required = false) Integer items,
+                                                  @RequestBody(required = false) Book bookFilter) {
 
         Optional<Integer> defaultItemSize = Optional.ofNullable(environment.getProperty("app.default.pagination.items", Integer.class));
 
@@ -105,8 +107,9 @@ public class BookController {
         PageRequest pageRequest = PageRequest.of(
                 Optional.ofNullable(page).orElse(0),
                 Optional.ofNullable(items).orElse(
-                        defaultItemSize.orElse(0))
+                        defaultItemSize.orElse(10))
         );
+
         return new ResponseEntity<>(bookService.findAllByFilter(pageRequest, bookFilter).toList(), HttpStatus.OK);
     }
 

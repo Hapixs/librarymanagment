@@ -85,6 +85,6 @@ public class Loan {
        return !getDateEnd().isAfter(getDateStart().plusWeeks(4));
     }
     public boolean isExceeded() {
-        return !(isExtendable()) && LocalDateTime.now().isAfter(getDateEnd());
+        return LocalDateTime.now().isAfter(getDateEnd());
     }
 }

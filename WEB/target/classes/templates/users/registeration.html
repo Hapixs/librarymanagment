@@ -4,11 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </head>
 <body>
 <div>
-    <form action="#" th:action="@{/users/register}" th:object="${}" method="post">
-        <input th:field="*{}">
+    <div th:replace="fragments/navigator :: nav"></div>
+    <div th:replace="fragments/notifications :: messages (${error}, ${success}, ${warn})"></div>
+    <form action="#" th:action="@{/users/register}" th:object="${user}" method="post">
+
+        <table>
+            <tr>
+                <td>
+                    <div class="col-auto">
+                        <label for="name" class="col-form-label">Nom</label>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-auto">
+                        <input id="name" class="form-control" type="text" th:field="*{name}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><div class="col-auto">
+                    <label for="prenom" class="col-form-label">Prénom</label>
+                </div></td>
+                <td><div class="col-auto">
+                    <input id="prenom" class="form-control" type="text" th:field="*{firstName}"/>
+                </div></td>
+            </tr>
+            <tr>
+                <td> <div class="col-auto">
+                    <label for="email" class="col-form-label">Adresse mail</label>
+                </div></td>
+                <td><div class="col-auto">
+                    <input id="email" class="form-control" type="text" th:field="*{email}"/>
+                </div></td>
+            </tr>
+            <tr>
+                <td><div class="col-auto">
+                    <label for="password" class="col-form-label">password</label>
+                </div></td>
+                <td><div class="col-auto">
+                    <input id="password" class="form-control" type="password" th:field="*{password}"/>
+                </div></td>
+            </tr>
+        </table>
+        <button class="btn btn-primary" type="submit" value="Submit">Se connecter</button>
     </form>
 </div>
 </body>
